@@ -33,10 +33,10 @@ function f_viewLoad(viewName, callback) {
 
     //real browsers
     script.onload = function () {
-        //_MAIN_ROUTER.addRoutes([{ path: '/' + viewName.toLocaleLowerCase(), component: window['COM_'.toLocaleUpperCase()] }]);
+        _MAIN_ROUTER.addRoutes([{ path: '/' + viewName.toLocaleLowerCase(), component: window['COM_'.toLocaleUpperCase()] }]);
         setTimeout(function () {
             callback();
-        }, 30);
+        }, 10);
     };
 
     ////////Internet explorer
