@@ -1,5 +1,7 @@
-﻿var _ROUTER, _APP, _DATA = {
-    userInfo: {
+﻿var _ROUTER, _APP, _MIXIN_GLOBAL, _MIXIN_COMS, _COMS_DATA_SHARED,
+    _PROPS_DATA_SHARED = ['objLang', 'objUserInfo'];
+var _DATA = {
+    objUserInfo: {
         loggedIn: false
     }
 };
@@ -7,10 +9,187 @@
 /**********************************************************************************/
 /* [VUE] */
 
+_MIXIN_COMS = {
+    data: {
+        _eleID: null
+    },
+    mounted: function () {
+        var _self = this;
+
+        var _id = _self.$el.id;
+        if (_id == null || _id.length == 0) {
+            _id = '___vue-com-' + _self._uid;
+            if (_self.$el && _self.$el.setAttribute) {
+                _self.$el.setAttribute('id', _id);
+            }
+        }
+        _self._eleID = _id;
+
+        console.log('MIXIN_COMS: mounted ...', _id, _self._data);
+    },
+    props: _PROPS_DATA_SHARED,
+    computed: {
+    },
+    methods: {
+        screenEmit: function (screenId) {
+            //var _self = this;
+            ////console.log('[1]', _self.screenInfo);
+            //if (screenId == null && _self.screenInfo) screenId = _self.screenInfo.Id;
+            //if (screenId == null) return;
+            ////console.log('[2]',screenId, ___SCREEN_EVENT_SUBMIT_ID[screenId], ___SCREEN_EVENT_SUBMIT_ID);
+            //if (___SCREEN_EVENT_SUBMIT_ID[screenId] == null) return;
+
+            //var screenInfoSubmit = _self.getScreenInfo(screenId);
+            //___SCREEN_EVENT_SUBMIT_ID[screenId].forEach(function (id) {
+            //    var el = document.getElementById(id);
+            //    if (el && el.__vue__) el.__vue__.$emit(screenId, screenInfoSubmit);
+            //});
+        },
+        addScreenEmit: function (screenId, funcCallback) {
+            //var _self = this;
+            ////console.log(screenId, _self._eleID);
+            //if (___SCREEN_EVENT_SUBMIT_ID[screenId] == null)
+            //    ___SCREEN_EVENT_SUBMIT_ID[screenId] = [_self._eleID];
+            //else
+            //    ___SCREEN_EVENT_SUBMIT_ID[screenId].push(_self._eleID);
+            //this.$on(screenId, funcCallback);
+        },
+        screenDialogClose: function () {
+            var dialog = this.$root;
+            if (dialog && typeof dialog['screenDialogClose'] == 'function') dialog.screenDialogClose();
+        },
+        screenDialogCloseNoCallback: function () {
+            var dialog = this.$root;
+            if (dialog && typeof dialog['screenDialogClose'] == 'function') dialog.screenDialogCloseNoCallback();
+        }
+    }
+};
+_COMS_DATA_SHARED = '';
+_MIXIN_COMS.props.forEach(function (v) { _COMS_DATA_SHARED += ' :' + v + '="' + v + '" '; });
+_MIXIN_GLOBAL = {
+    computed: {
+        screenCurrentId: function () {
+            var _self = this;
+            if (_self.screenInfoCurrent && _self.screenInfoCurrent.Id) {
+                return _self.screenInfoCurrent.Id;
+            }
+            return null;
+        }
+    },
+    methods: {
+        getScreenInfo: function (screenId) {
+            var _self = this;
+            if (_self.objScreens != null && _self.objScreens[screenId] != null) {
+                return _self.objScreens[screenId];
+            }
+            return null;
+        },
+        getVueObjectWidget: function (page, x, y, width, height) {
+            //var el = document.getElementById('wi-a1-c3-r1-s11');
+            var el = document.getElementById('wi-a' + page + '-c' + (x + 1) + '-r' + (y + 1) + '-s' + width + '' + height);
+            if (el) {
+                var pa = el.querySelector('.wiget-card');
+                if (pa && pa.__vue__) return pa.__vue__;
+            }
+            return null;
+        },
+        getDataTextSynchronous: function (url) {
+            //if (url.indexOf('/') != 0) url = '/' + url;
+            //if (url.indexOf('http') != 0) url = 'http://' + ___NODEJS_HOST + url;
+            //f_log_kit(url);
+            var r = new XMLHttpRequest();
+            r.open('GET', url, false);
+            r.send(null);
+            if (r.status === 200) return r.responseText;
+            return '';
+        },
+        screenOpen: function (options) {
+            var parentId = '';
+            if (this.$el == null) {
+                parentId = _SCREENS_ID.HOME;
+                options._screenParentIsHomeUI = true;
+            }
+            else {
+                parentId = this.$el.id;
+            }
+
+            //console.log('screenOpen: parentId = ', parentId);
+
+            options._screenParentElemID = parentId;
+            f_hui_screenOpen(options);
+        },
+        screenBlankOpen: function () {
+            var _self = this;
+            _self.screenOpen({
+                Id: _SCREENS_ID.BLANK,
+                Components: 'blank-screen',
+                className: 'blank-screen',
+                overlayShow: false,
+                Footer: { buttonOk: false, buttonCancel: false }
+            });
+        },
+        screenAlertOpen: function (screenId, message, optionsFooter, components) {
+            var _self = this;
+            if (optionsFooter == null) optionsFooter = { buttonOk: true, buttonCancel: false };
+            _self.screenOpen({
+                Id: screenId,
+                className: 'screen-alert',
+                Header: {
+                    headerIcon: 'icon-b_warning_large',
+                    Message: message
+                },
+                Footer: optionsFooter
+            });
+        },
+        screenWarningOpen: function (screenId, message, optionsFooter, components) {
+            var _self = this;
+            if (optionsFooter == null) optionsFooter = { buttonOk: true, buttonCancel: false };
+            _self.screenOpen({
+                Id: screenId,
+                className: 'screen-alert',
+                Header: {
+                    headerIcon: 'icon-b_warning_large',
+                    Message: message
+                },
+                Footer: optionsFooter
+            });
+        },
+        screenConfirmOpen: function (screenId, message, optionsFooter, components) {
+            var _self = this;
+            _self.screenOpen({
+                Id: screenId,
+                className: 'screen-confirm',
+                Header: {
+                    headerIcon: 'icon-b_warning_large',
+                    classNameMessage: 'f-size18',
+                    Message: message
+                },
+                Footer: optionsFooter
+            });
+        },
+        screenToastOpen: function (screenId, message, optionsFooter, components) {
+            var _self = this;
+            if (optionsFooter == null) optionsFooter = { buttonOk: false, buttonCancel: false };
+            _self.screenOpen({
+                Id: screenId,
+                Components: 'toast-message-remove-widget',
+                timeoutDisplay: 5000,
+                className: 'screen-toast toast-top screen-toast-widget-remove',
+                overlayShow: false,
+                Header: {
+                    headerIcon: 'icon-b_warning_large',
+                    Message: message
+                },
+                Footer: optionsFooter
+            });
+        }
+    }
+};
+
 function f_vueInit() {
     _ROUTER = new VueRouter();
     _ROUTER.beforeEach((to, from, next) => {
-        if (to.matched.some(record => record.meta.requiresAuth) && !_DATA.userInfo.loggedIn) {
+        if (to.matched.some(record => record.meta.requiresAuth) && !_DATA.objUserInfo.loggedIn) {
             next({ path: '/login', query: { redirect: to.fullPath } });
         } else {
             next();
@@ -77,17 +256,17 @@ function _apiViewLoad(viewName, callback) {
     script.onload = function () {
         setTimeout(function () {
             var key = viewName.toLocaleLowerCase(),
-                com = window[key.toLocaleUpperCase() + '_COM'],
-                config = window[key.toLocaleUpperCase() + '_CONFIG'];
+                com = window[key.toLocaleUpperCase() + '_COM'];
 
-            if (com && config) {
-                if (config.requiresAuth == true) {
+            if (com) {
+                console.log('VIEW_LOAD: ', key, ' -> data = ', com);
+
+                if (com.requiresAuth == true) {
                     _ROUTER.addRoutes([{ path: '/' + key, component: com, meta: { requiresAuth: true } }]);
                 } else {
                     _ROUTER.addRoutes([{ path: '/' + key, component: com }]);
                 }
 
-                console.log('VIEW_LOAD: ', key, ' -> done');
                 callback();
             } else {
                 console.error('VIEW_LOAD: cannot find component is ', key);
@@ -133,7 +312,7 @@ function f_mainSetup() {
         ////    });
         ////});
 
-        if (_DATA.userInfo.loggedIn == true) {
+        if (_DATA.objUserInfo.loggedIn == true) {
             _apiViewLoad('dashboard', function () {
                 //console.log('LOAD_VIEW: dashboard -> done');
             });

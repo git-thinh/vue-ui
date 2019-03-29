@@ -1,6 +1,10 @@
-﻿
-var ABOUT_CONFIG = {
-    requiresAuth: false
+﻿var ABOUT_COM = {
+    mixins: [_MIXIN_COMS, _MIXIN_GLOBAL],
+    data: function () {
+        var data = {
+            requiresAuth: false
+        };
+        return data;
+    },
+    template: '<h1>About</div>'
 };
-
-var ABOUT_COM = { template: '<h1>About</div>' };
