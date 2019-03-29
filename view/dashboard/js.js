@@ -1,8 +1,13 @@
-﻿var DASHBOARD_COM = {
+﻿var DASHBOARD_CONFIG = {
+    requiresAuth: true
+};
+
+var DASHBOARD_COM = {
     mixins: [_MIXIN_COMS, _MIXIN_GLOBAL],
     data: function () {
         var data = {
-            requiresAuth: true
+            _name: 'dashboard',
+            dashboard: 2
         };
         return data;
     },

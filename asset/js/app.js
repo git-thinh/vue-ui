@@ -1,6 +1,7 @@
 ﻿var _ROUTER, _APP, _MIXIN_GLOBAL, _MIXIN_COMS, _COMS_DATA_SHARED,
     _PROPS_DATA_SHARED = ['objLang', 'objUserInfo'];
 var _DATA = {
+    objLang: {},
     objUserInfo: {
         loggedIn: false
     }
@@ -13,8 +14,27 @@ _MIXIN_COMS = {
     data: {
         _eleID: null
     },
+    created: function () {
+        var _self = this;
+        var config, _name = _self._data._name;
+        if (_name) {
+            config = window[_name.toLocaleUpperCase() + '_CONFIG'];
+            if (config)
+                _self.$data._config = config;
+        }
+        console.log('MIXIN_COMS: created -> config = ', config);
+    },
     mounted: function () {
         var _self = this;
+
+        var isViewMain = _self.$el.parentElement.id == 'view';
+        _self.$data._position = isViewMain ? 'main' : 'popup';
+        if (isViewMain) {
+            _self.$el.parentElement.className = 'screen-main component ' + _self._data._name;
+        } else {
+            _self.$el.parentElement.className = 'screen-popup component ' + _self._data._name;
+        }
+        //console.log('MIXIN_COMS: mounted -> View on main = ', isViewMain);
 
         var _id = _self.$el.id;
         if (_id == null || _id.length == 0) {
@@ -214,7 +234,17 @@ function f_vueInit() {
     _ROUTER.onReady(function () {
         console.log('ROUTER: ready ...');
     });
-    _APP = new Vue({ el: '#view', router: _ROUTER });
+    _APP = new Vue({
+        mixins: [_MIXIN_GLOBAL],
+        data: function () {
+            return _DATA;
+        },
+        el: '#view',
+        router: _ROUTER,
+        mounted: function () {
+            console.log('SCREEN_MAIN: mounted ...');
+        }
+    });
 }
 
 /**********************************************************************************/
@@ -256,15 +286,17 @@ function _apiViewLoad(viewName, callback) {
     script.onload = function () {
         setTimeout(function () {
             var key = viewName.toLocaleLowerCase(),
+                config = window[key.toLocaleUpperCase() + '_CONFIG'],
                 com = window[key.toLocaleUpperCase() + '_COM'];
 
-            if (com) {
-                console.log('VIEW_LOAD: ', key, ' -> data = ', com);
-
-                if (com.requiresAuth == true) {
-                    _ROUTER.addRoutes([{ path: '/' + key, component: com, meta: { requiresAuth: true } }]);
+            if (com && config) {
+                console.log('VIEW_LOAD: ', key, ' -> config = ', config);
+                //console.log('VIEW_LOAD: ', key, ' -> com = ', com);
+                
+                if (config.requiresAuth == true) {
+                    _ROUTER.addRoutes([{ path: '/' + key, component: com, meta: { requiresAuth: true }, props: _DATA }]);
                 } else {
-                    _ROUTER.addRoutes([{ path: '/' + key, component: com }]);
+                    _ROUTER.addRoutes([{ path: '/' + key, component: com, props: _DATA }]);
                 }
 
                 callback();
@@ -300,28 +332,27 @@ function f_mainSetup() {
         f_vueInit();
 
         //////Load component login
-        ////_apiViewLoad('login', function () {
-        ////    //console.log('LOAD_VIEW: login -> done');
-        ////    _apiViewLoad('dashboard', function () {
-        ////        //console.log('LOAD_VIEW: dashboard -> done');
-        ////        _apiViewLoad('about', function () {
-        ////            //console.log('LOAD_VIEW: about -> done');
-        ////            _ROUTER.push('/dashboard');
-
-        ////        });
-        ////    });
-        ////});
-
-        if (_DATA.objUserInfo.loggedIn == true) {
+        _apiViewLoad('login', function () {
+            //console.log('LOAD_VIEW: login -> done');
             _apiViewLoad('dashboard', function () {
                 //console.log('LOAD_VIEW: dashboard -> done');
+                _apiViewLoad('about', function () {
+                    //console.log('LOAD_VIEW: about -> done');
+                    _ROUTER.push('/dashboard');
+                });
             });
-        } else {
-            _apiViewLoad('login', function () {
-                //console.log('LOAD_VIEW: login -> done');
-                _ROUTER.push('/login');
-            });
-        }
+        });
+
+        //if (_DATA.objUserInfo.loggedIn == true) {
+        //    _apiViewLoad('dashboard', function () {
+        //        //console.log('LOAD_VIEW: dashboard -> done');
+        //    });
+        //} else {
+        //    _apiViewLoad('login', function () {
+        //        //console.log('LOAD_VIEW: login -> done');
+        //        _ROUTER.push('/login');
+        //    });
+        //}
     });
 }
 
@@ -407,7 +438,7 @@ function f_mainLayoutInit(callback) {
                 ////        this.click('tab0');
                 ////    }
                 ////},
-                content: '<div id="view"><router-view></router-view></div>'
+                content: '<div id="view"><router-view ' + _COMS_DATA_SHARED + ' ></router-view></div>'
                 //content: '<div id="view"><p><router-link to="/about">About</router-link> | <router-link to="/dashboard">Dashboard</router-link></p><router-view></router-view></div>'
             }
             , { type: 'preview', size: '10%', resizable: true, hidden: true, content: 'preview' }

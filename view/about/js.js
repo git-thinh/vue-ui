@@ -1,8 +1,13 @@
-﻿var ABOUT_COM = {
+﻿var ABOUT_CONFIG = {
+    requiresAuth: false
+};
+
+var ABOUT_COM = {
     mixins: [_MIXIN_COMS, _MIXIN_GLOBAL],
     data: function () {
         var data = {
-            requiresAuth: false
+            _name: 'about',
+            about: 3
         };
         return data;
     },
