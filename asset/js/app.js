@@ -16,6 +16,22 @@ function f_vueInit() {
             next();
         }
     });
+    //_ROUTER.beforeResolve((to, from, next) => {
+    //    /* must call `next` */
+    //    if (to && to.matched.length > 0) {
+    //        var view = to.matched[0].path.substr(1);
+    //        console.log('beforeResolve = ', to);
+    //        console.log('ROUTER: call view = ', view);
+    //    }
+    //    next();
+    //});
+    _ROUTER.afterEach((to, from) => {
+        if (to && to.matched.length > 0) {
+            var view = to.matched[0].path.substr(1);
+            //console.log('ROUTER.afterEach: to = ', to);
+            console.log('ROUTER: call = ', view);
+        }
+    });
     _ROUTER.onReady(function () {
         console.log('ROUTER: ready ...');
     });
@@ -104,18 +120,29 @@ function f_mainSetup() {
     f_mainLayoutInit(function () {
         f_vueInit();
 
-        //Load component login
-        _apiViewLoad('login', function () {
-            //console.log('LOAD_VIEW: login -> done');
+        //////Load component login
+        ////_apiViewLoad('login', function () {
+        ////    //console.log('LOAD_VIEW: login -> done');
+        ////    _apiViewLoad('dashboard', function () {
+        ////        //console.log('LOAD_VIEW: dashboard -> done');
+        ////        _apiViewLoad('about', function () {
+        ////            //console.log('LOAD_VIEW: about -> done');
+        ////            _ROUTER.push('/dashboard');
+
+        ////        });
+        ////    });
+        ////});
+
+        if (_DATA.userInfo.loggedIn == true) {
             _apiViewLoad('dashboard', function () {
                 //console.log('LOAD_VIEW: dashboard -> done');
-                _apiViewLoad('about', function () {
-                    //console.log('LOAD_VIEW: about -> done');
-                    _ROUTER.push('/dashboard');
-
-                });
             });
-        });
+        } else {
+            _apiViewLoad('login', function () {
+                //console.log('LOAD_VIEW: login -> done');
+                _ROUTER.push('/login');
+            });
+        }
     });
 }
 
