@@ -11,8 +11,8 @@ var LOGIN_COM = Vue.component('login', {
         };
         return data;
     },
-    template: '<input type="button" value="Login" v-on:click="btnLoginClick">',
-    //template: _apiGet('view/login/index.html'),
+    //template: '<input type="button" value="Login" v-on:click="btnLoginClick">',
+    template: _apiGet('view/login/index.html'),
     mounted: function () {
         console.log('LOGIN: mounted ...', this.objUserInfo); 
     },
