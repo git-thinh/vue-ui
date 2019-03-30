@@ -8,8 +8,26 @@
 var _MAIN, _ROUTER, _APP, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [];
 for (var key in _DATA) { _PROPS.push(key); }
 _PROPS.forEach(function (v) { _DATA_SHARED += ' :' + v + '="' + v + '" '; });
-var _COMS = { props: _PROPS };
 /////////////////////////////////////////////////////////////////////////////////
+var _COMS = {
+    props: _PROPS,
+    mounted: function () {
+        var _self = this;
+
+        _self.$el.className = 'component ' + _self._data._name;
+
+        var _id = _self.$el.id;
+        if (_id == null || _id.length == 0) {
+            _id = '___vue-com-' + _self._uid;
+            if (_self.$el && _self.$el.setAttribute) {
+                _self.$el.setAttribute('id', _id);
+            }
+        }
+        _self._eleID = _id;
+
+        console.log('MIXIN_COMS: mounted ...', _id, _self._data);
+    }
+};
 _MIXIN = {
     computed: {
         screenCurrentId: function () {
@@ -21,85 +39,13 @@ _MIXIN = {
         }
     },
     methods: {
-        screenOpen: function (options) {
-            var parentId = '';
-            if (this.$el == null) {
-                parentId = _SCREENS_ID.HOME;
-                options._screenParentIsHomeUI = true;
-            }
-            else {
-                parentId = this.$el.id;
-            }
-
-            //console.log('screenOpen: parentId = ', parentId);
-
-            options._screenParentElemID = parentId;
-            f_hui_screenOpen(options);
+        screenAlertOpen: function () {
         },
-        screenBlankOpen: function () {
-            var _self = this;
-            _self.screenOpen({
-                Id: _SCREENS_ID.BLANK,
-                Components: 'blank-screen',
-                className: 'blank-screen',
-                overlayShow: false,
-                Footer: { buttonOk: false, buttonCancel: false }
-            });
+        screenWarningOpen: function () {
         },
-        screenAlertOpen: function (screenId, message, optionsFooter, components) {
-            var _self = this;
-            if (optionsFooter == null) optionsFooter = { buttonOk: true, buttonCancel: false };
-            _self.screenOpen({
-                Id: screenId,
-                className: 'screen-alert',
-                Header: {
-                    headerIcon: 'icon-b_warning_large',
-                    Message: message
-                },
-                Footer: optionsFooter
-            });
+        screenConfirmOpen: function () {
         },
-        screenWarningOpen: function (screenId, message, optionsFooter, components) {
-            var _self = this;
-            if (optionsFooter == null) optionsFooter = { buttonOk: true, buttonCancel: false };
-            _self.screenOpen({
-                Id: screenId,
-                className: 'screen-alert',
-                Header: {
-                    headerIcon: 'icon-b_warning_large',
-                    Message: message
-                },
-                Footer: optionsFooter
-            });
-        },
-        screenConfirmOpen: function (screenId, message, optionsFooter, components) {
-            var _self = this;
-            _self.screenOpen({
-                Id: screenId,
-                className: 'screen-confirm',
-                Header: {
-                    headerIcon: 'icon-b_warning_large',
-                    classNameMessage: 'f-size18',
-                    Message: message
-                },
-                Footer: optionsFooter
-            });
-        },
-        screenToastOpen: function (screenId, message, optionsFooter, components) {
-            var _self = this;
-            if (optionsFooter == null) optionsFooter = { buttonOk: false, buttonCancel: false };
-            _self.screenOpen({
-                Id: screenId,
-                Components: 'toast-message-remove-widget',
-                timeoutDisplay: 5000,
-                className: 'screen-toast toast-top screen-toast-widget-remove',
-                overlayShow: false,
-                Header: {
-                    headerIcon: 'icon-b_warning_large',
-                    Message: message
-                },
-                Footer: optionsFooter
-            });
+        screenToastOpen: function () {
         }
     }
 };
@@ -258,14 +204,14 @@ _MAIN = {
     onLoginSuccess: function () {
         w2ui['layout_main'].toggle('top', true);
         w2ui['layout_main'].toggle('left', true);
-        w2ui['layout_main'].toggle('right', true);
-        w2ui['layout_main'].toggle('preview', true);
-        w2ui['layout_main'].toggle('bottom', true);
+        //w2ui['layout_main'].toggle('right', true);
+        //w2ui['layout_main'].toggle('preview', true);
+        //w2ui['layout_main'].toggle('bottom', true);
 
         w2ui['layout_main'].get('main').tabs.show('tab0');
         w2ui['layout_main'].get('main').tabs.show('tab1');
 
-        _MAIN.vueRenderById('lay-toolbar', '<toolbar ' + _DATA_SHARED + ' ></toolbar>');
+        _MAIN.vueRenderComponent('lay-toolbar', 'toolbar');
     },
     vueInit: function () {
         _ROUTER = new VueRouter();
@@ -328,8 +274,8 @@ _MAIN = {
         });
 
     },
-    vueRenderById: function (id, temp) {
-        var el = document.getElementById(id);
+    vueRenderComponent: function (idElemMount, componentName) {
+        var el = document.getElementById(idElemMount);
         if (el) {
             var div = document.createElement('div');
             el.appendChild(div);
@@ -337,18 +283,10 @@ _MAIN = {
             var objVue = new Vue({
                 mixins: [_MIXIN],
                 data: function () { return _DATA; },
-                template: '<div><toolbar ' + _DATA_SHARED + '></toolbar></div>',
-                el: '#' + id,
-                created: function () {
-                    console.log('=============== dialog.created:: DATA = ', this.$data);
-                    //console.log('created:: screenInfo = ', this.screenInfo);
-                },
-                mounted: function () {
-                    console.log('=============== dialog.mounted:: DATA = ', this.$data);
-                    //console.log('created:: screenInfo = ', this.screenInfo);
-                }
+                template: '<div><' + componentName + ' ' + _DATA_SHARED + '></' + componentName + '></div>',
+                //el: '#' + id
             });
-            //objVue.$mount(div);
+            objVue.$mount(div);
 
             return objVue;
         }
