@@ -1,26 +1,25 @@
-﻿var TOOLBAR_CONFIG = {
+﻿var TOOLBAR_LEFT_CONFIG = {
     requiresAuth: false,
     noRouter: true
 };
 
-Vue.component('toolbar', {
+Vue.component('toolbar-left', {
     mixins: [_MIXIN, _COMS],
     data: function () {
         var data = {
             toolbarId: '_' + new Date().getTime(),
-            _name: 'toolbar',
+            _name: 'toolbar-left',
             key1: 1
         };
         return data;
     },
-    template: _apiGet('view/toolbar/index.html'),
+    template: _apiGet('view/toolbar-left/index.html'),
     mounted: function () {
         var _self = this;
-        console.log('toolbar: mounted ...', this.objUserInfo);         
+        console.log('toolbar-left: mounted ...', this.objUserInfo);
+
+
     },
     methods: {
-        btnLoginClick: function () {
-            var _self = this;
-        }
     }
 });

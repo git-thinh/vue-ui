@@ -11,5 +11,6 @@ var DASHBOARD_COM = {
         };
         return data;
     },
-    template: '<h1>Dashboard</h1>'
+    template: _apiGet('view/dashboard/index.html')
+    //template: '<h1>Dashboard</h1>'
 };

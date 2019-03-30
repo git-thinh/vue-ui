@@ -5,50 +5,70 @@
         messages: []
     }
 };
-var _MAIN, _ROUTER, _APP, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [];
+var _MAIN, _ROUTER, _APP, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [], _COMS;
 for (var key in _DATA) { _PROPS.push(key); }
 _PROPS.forEach(function (v) { _DATA_SHARED += ' :' + v + '="' + v + '" '; });
 /////////////////////////////////////////////////////////////////////////////////
-var _COMS = {
-    props: _PROPS,
-    mounted: function () {
-        var _self = this;
-
-        _self.$el.className = 'component ' + _self._data._name;
-
-        var _id = _self.$el.id;
-        if (_id == null || _id.length == 0) {
-            _id = '___vue-com-' + _self._uid;
-            if (_self.$el && _self.$el.setAttribute) {
-                _self.$el.setAttribute('id', _id);
-            }
-        }
-        _self._eleID = _id;
-
-        console.log('MIXIN_COMS: mounted ...', _id, _self._data);
-    }
-};
-_MIXIN = {
-    computed: {
-        screenCurrentId: function () {
+$(function () {
+    _COMS = {
+        props: _PROPS,
+        mounted: function () {
             var _self = this;
-            if (_self.screenInfoCurrent && _self.screenInfoCurrent.Id) {
-                return _self.screenInfoCurrent.Id;
+
+            _self.$el.className = 'component ' + _self._data._name;
+
+            var _id = _self.$el.id;
+            if (_id == null || _id.length == 0) {
+                _id = '___vue-com-' + _self._uid;
+                if (_self.$el && _self.$el.setAttribute) {
+                    _self.$el.setAttribute('id', _id);
+                }
             }
-            return null;
+            _self._eleID = _id;
+
+            console.log('MIXIN_COMS: ' + _self._data._name + ' mounted ...', _id, _self._data);
         }
-    },
-    methods: {
-        screenAlertOpen: function () {
+    };
+    _MIXIN = {
+        computed: {
+            screenCurrentId: function () {
+                var _self = this;
+                if (_self.screenInfoCurrent && _self.screenInfoCurrent.Id) {
+                    return _self.screenInfoCurrent.Id;
+                }
+                return null;
+            }
         },
-        screenWarningOpen: function () {
-        },
-        screenConfirmOpen: function () {
-        },
-        screenToastOpen: function () {
+        methods: {
+            screenAlertOpen: function () {
+            },
+            screenWarningOpen: function () {
+            },
+            screenConfirmOpen: function () {
+            },
+            screenToastOpen: function () {
+            }
         }
-    }
-};
+    };
+    _ROUTER = new VueRouter();
+    _ROUTER.beforeEach((to, from, next) => {
+        if (to.matched.some(record => record.meta.requiresAuth) && !_DATA.objUserInfo.loggedIn) {
+            next({ path: '/login', query: { redirect: to.fullPath } });
+        } else {
+            next();
+        }
+    });
+    _ROUTER.afterEach((to, from) => {
+        if (to && to.matched.length > 0) {
+            var view = to.matched[0].path.substr(1);
+            //console.log('ROUTER.afterEach: to = ', to);
+            console.log('ROUTER: call = ', view);
+        }
+    });
+    _ROUTER.onReady(function () {
+        console.log('ROUTER: ready ...');
+    });
+});
 /////////////////////////////////////////////////////////////////////////////////
 
 function _apiGet(url) {
@@ -70,16 +90,11 @@ _MAIN = {
         console.log('MAIN_SETUP ...');
 
         _MAIN.layoutInit(function () {
-            _MAIN.vueInit();
 
-            //////Load component login
+            //Load component login
             _MAIN.viewLoad('login', function () {
                 _MAIN.viewLoad('dashboard', function () {
-                    _MAIN.viewLoad('about', function () {
-                        _MAIN.viewLoad('toolbar', function () {
-                            _ROUTER.push('/dashboard');
-                        }, true);
-                    });
+                    _MAIN.vueInit();
                 });
             });
 
@@ -96,158 +111,29 @@ _MAIN = {
         });
     },
     layoutInit: function (callback) {
-        var layout_page = {
-            name: 'layout_main',
-            padding: 0,
-            panels: [
-                {
-                    type: 'top', size: 30, resizable: false, hidden: true,
-                    content: '<div id="lay-toolbar"></div>', overflow: 'hidden', style: 'background-color: #fafafa;border:none;',
-                    //toolbar: {
-                    //    name: 'toolbar_top',
-                    //    style: 'padding:0px;border:none;',
-                    //    items: [
-                    //        {
-                    //            type: 'html', id: 'nav_item_logo',
-                    //            html: '<div class="nav_item_logo"><img src="/w2ui/user.jpg"/></div><div class="nav_item_logo_space"></div>'
-                    //        },
-                    //        {
-                    //            type: 'menu', id: 'item2', caption: '<b>IFC</b>', count: 17, items: [
-                    //                { text: 'Thông tin tài khoản', icon: 'mdi mdi-account', },
-                    //                { text: 'Đổi mật khẩu', icon: 'mdi mdi-lock' },
-                    //                { text: 'Cấu hình', icon: 'mdi mdi-settings' }
-                    //            ]
-                    //        },
-                    //        { type: 'spacer' },
-                    //        { type: 'radio', id: 'item3', group: '1', caption: 'task 1', icon: 'mdi mdi-file-outline', checked: true },
-                    //        { type: 'radio', id: 'item4', group: '1', caption: 'task 2', icon: 'mdi mdi-file-outline' },
-                    //        { type: 'break', id: 'break1' },
-                    //        {
-                    //            type: 'html', id: 'nav_item_notification',
-                    //            html: '<div class="nav_item_notification">' +
-                    //                ' <ul>' +
-                    //                '     <li class="mdi mdi-bell"><span>5</span></li>' +
-                    //                '     <li class="mdi mdi-email"><span>5</span></li>' +
-                    //                '     <li class="mdi mdi-history"><span>5</span></li>' +
-                    //                ' </ul>' +
-                    //                '</div>'
-                    //        }
-                    //    ]
-                    //}
-                }
-                , {
-                    type: 'left', size: 225, resizable: true, minSize: 0, hidden: true,
-                    toolbar: {
-                        name: 'toolbar_left',
-                        style: 'padding:0px;border:none;border-bottom: 1px solid silver;',
-                        items: [
-                            {
-                                type: 'menu', id: 'toolbar_leftitemff1', caption: '<span class="mdi16 mdi-menu"></span>', items: [
-                                    { text: 'Chức năng (API)', icon: 'mdi mdi-codepen' },
-                                    { text: 'Kết nối, truy cập', icon: 'mdi mdi-access-point-network' },
-                                    { text: 'Cơ sở dữ liệu', icon: 'mdi mdi-database' },
-                                    { text: 'Tài khoản', icon: 'mdi mdi-account-key' },
-                                    { text: 'Hệ thống khách hàng', icon: 'mdi mdi-monitor' }
-                                ]
-                            },
-                            { type: 'radio', id: 'toolbar_leftitemff2', group: '1', caption: 'Điện lực', checked: true },
-                            { type: 'radio', id: 'toolbar_leftitemff3', group: '1', caption: 'Trạm' },
-                            { type: 'radio', id: 'toolbar_leftitemff4', group: '1', caption: 'Nhóm' },
-                            { type: 'spacer' },
-                            {
-                                type: 'html', id: 'panel_left_bar',
-                                html: '<div id="panel_left_bar"><span class="ib_toggle mdi24 mdi-menu-left" onclick="f_panel_left_toggle()"></span></div>'
-                            }
-                        ]
-                    }
-                }
-                , {
-                    type: 'main', overflow: 'hidden',
-                    style: 'background-color: white; border: 1px solid silver; border-top: 0px; padding: 0px;',
-                    tabs: {
-                        active: 'tab0',
-                        tabs: [
-                            { id: 'tab0', caption: 'tab0', hidden: true },
-                            { id: 'tab1', caption: 'tab1', hidden: true }
-                        ],
-                        onClick: function (event) {
-                            //w2ui.layout.html('main', 'Active tab: ' + event.target);
-                        },
-                        onClose: function (event) {
-                            this.click('tab0');
-                        }
-                    },
-                    content: '<div id="lay-view"><router-view ' + _DATA_SHARED + ' ></router-view></div>'
-                    //content: '<div id="lay-view"><p><router-link to="/about">About</router-link> | <router-link to="/dashboard">Dashboard</router-link></p><router-view></router-view></div>'
-                }
-                , { type: 'preview', size: '10%', resizable: true, hidden: true, content: 'preview' }
-                , {
-                    type: 'bottom', size: 20, resizable: false, hidden: true,
-                    content: '<span class=fs12>©<span> <span class=fs11>IFC company<span>', overflow: 'hidden',
-                    style: 'background-color: #EEEEEE;text-align: center;display: block;top: 0px; padding-top: 1px;font-family: arial;color: #666;'
-                }
-            ]
-            , onShow: function (event) {
-                //console.log('onShow(): object ' + event.panel + ' is shown');
-                //event.onComplete = function () {
-                //};
-            }
-            , onRender: function (event) {
-                //console.log('object ' + this.name + ' is rendered. 1 lần duy nhất khi trang vừa tải về');
-                if (callback && typeof callback == 'function') setTimeout(callback, 10);
-            }
-        };
+        var layName = 'base', html = _apiGet('layout/' + layName + '.html');
+        html = html.split('_DATA_SHARED').join(_DATA_SHARED);
 
-        $('#lay-app').w2layout(layout_page);
+        var el = document.getElementById('lay-app');
+        if (el) {
+            el.innerHTML = html;
+            if (callback && typeof callback == 'function') setTimeout(callback, 1);
+        }
     },
     onLogout: function () { },
     onLoginSuccess: function () {
-        w2ui['layout_main'].toggle('top', true);
-        w2ui['layout_main'].toggle('left', true);
-        //w2ui['layout_main'].toggle('right', true);
-        //w2ui['layout_main'].toggle('preview', true);
-        //w2ui['layout_main'].toggle('bottom', true);
-
-        w2ui['layout_main'].get('main').tabs.show('tab0');
-        w2ui['layout_main'].get('main').tabs.show('tab1');
-
-        _MAIN.vueRenderComponent('lay-toolbar', 'toolbar');
+        console.log('SCREEN_MAIN: LOGIN_OK ...');
+        _MAIN.vueRenderComponent('lay-top', 'toolbar');
     },
     vueInit: function () {
-        _ROUTER = new VueRouter();
-        _ROUTER.beforeEach((to, from, next) => {
-            if (to.matched.some(record => record.meta.requiresAuth) && !_DATA.objUserInfo.loggedIn) {
-                next({ path: '/login', query: { redirect: to.fullPath } });
-            } else {
-                next();
-            }
-        });
-        //_ROUTER.beforeResolve((to, from, next) => {
-        //    /* must call `next` */
-        //    if (to && to.matched.length > 0) {
-        //        var view = to.matched[0].path.substr(1);
-        //        console.log('beforeResolve = ', to);
-        //        console.log('ROUTER: call view = ', view);
-        //    }
-        //    next();
-        //});
-        _ROUTER.afterEach((to, from) => {
-            if (to && to.matched.length > 0) {
-                var view = to.matched[0].path.substr(1);
-                //console.log('ROUTER.afterEach: to = ', to);
-                console.log('ROUTER: call = ', view);
-            }
-        });
-        _ROUTER.onReady(function () {
-            console.log('ROUTER: ready ...');
-        });
         _APP = new Vue({
             mixins: [_MIXIN],
             data: function () { return _DATA; },
-            el: '#lay-view',
+            el: '#lay-app',
             router: _ROUTER,
             mounted: function () {
                 console.log('SCREEN_MAIN: mounted ...');
+                _ROUTER.push('/dashboard');
             },
             methods: {
                 userLoginCallback: function () {
@@ -272,18 +158,26 @@ _MAIN = {
                 }
             }
         });
-
     },
     vueRenderComponent: function (idElemMount, componentName) {
         var el = document.getElementById(idElemMount);
         if (el) {
+
+            var notExist = document.querySelectorAll('#view_js_' + componentName).length == 0;
+            if (notExist == true) {
+                _MAIN.viewLoad(componentName, function () {
+                    _MAIN.vueRenderComponent(idElemMount, componentName);
+                });
+                return;
+            }
+
             var div = document.createElement('div');
             el.appendChild(div);
 
             var objVue = new Vue({
                 mixins: [_MIXIN],
                 data: function () { return _DATA; },
-                template: '<div><' + componentName + ' ' + _DATA_SHARED + '></' + componentName + '></div>',
+                template: '<' + componentName + ' ' + _DATA_SHARED + '></' + componentName + '>',
                 //el: '#' + id
             });
             objVue.$mount(div);
@@ -292,13 +186,13 @@ _MAIN = {
         }
         return null;
     },
-    viewLoad: function (viewName, callback, noRouter) {
+    viewLoad: function (viewName, callback) {
         //console.log('VIEW_LOAD ...');
 
         var file = 'view/' + viewName + '/css.css';
         var head = document.getElementsByTagName("head")[0];
 
-        var notExist = document.querySelectorAll('#view_js_' + viewName + ', #view_css_' + viewName).length == 0;
+        var notExist = document.querySelectorAll('#view_js_' + viewName).length == 0;
         if (notExist == false) {
             console.error('VIEW [' + viewName + '] RESOURCE EXIST ...');
             return;
@@ -320,14 +214,15 @@ _MAIN = {
         script.onload = function () {
             //setTimeout(function () {
             var key = viewName.toLocaleLowerCase(),
-                config = window[key.toLocaleUpperCase() + '_CONFIG'],
-                com = window[key.toLocaleUpperCase() + '_COM'];
+                name = key.split('-').join('_'),
+                config = window[name.toLocaleUpperCase() + '_CONFIG'],
+                com = window[name.toLocaleUpperCase() + '_COM'];
 
             if (config) {
                 console.log('VIEW_LOAD: ', key, ' -> config = ', config);
                 //console.log('VIEW_LOAD: ', key, ' -> com = ', com);
 
-                if (noRouter != true) {
+                if (config.noRouter != true) {
                     config.noRouter = false;
                     if (com) {
                         if (config.requiresAuth == true) {
@@ -344,7 +239,7 @@ _MAIN = {
             } else {
                 console.error('VIEW_LOAD: cannot find component is ', key);
             }
-            //}, 10);
+            //}, 100);
         };
 
         ////////Internet explorer
