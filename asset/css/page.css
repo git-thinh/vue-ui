@@ -22,7 +22,7 @@ body {
     overflow: hidden;
 }
 
-#app {
+#lay-app {
     display: inline-block;
     width: 100%;
     height: 100vh;
@@ -30,7 +30,7 @@ body {
     overflow: hidden;
 }
 
-#view {
+#lay-view {
     position: absolute;
     /* background: red; */
     top: 25px;

@@ -240,7 +240,7 @@ function f_vueInit() {
         data: function () {
             return _DATA;
         },
-        el: '#view',
+        el: '#lay-view',
         router: _ROUTER,
         mounted: function () {
             console.log('SCREEN_MAIN: mounted ...');
@@ -304,26 +304,26 @@ function _apiViewLoad(viewName, callback) {
 
     //real browsers
     script.onload = function () {
-        setTimeout(function () {
-            var key = viewName.toLocaleLowerCase(),
-                config = window[key.toLocaleUpperCase() + '_CONFIG'],
-                com = window[key.toLocaleUpperCase() + '_COM'];
+        //setTimeout(function () {
+        var key = viewName.toLocaleLowerCase(),
+            config = window[key.toLocaleUpperCase() + '_CONFIG'],
+            com = window[key.toLocaleUpperCase() + '_COM'];
 
-            if (com && config) {
-                console.log('VIEW_LOAD: ', key, ' -> config = ', config);
-                //console.log('VIEW_LOAD: ', key, ' -> com = ', com);
-                
-                if (config.requiresAuth == true) {
-                    _ROUTER.addRoutes([{ path: '/' + key, component: com, meta: { requiresAuth: true }, props: _DATA }]);
-                } else {
-                    _ROUTER.addRoutes([{ path: '/' + key, component: com, props: _DATA }]);
-                }
+        if (com && config) {
+            console.log('VIEW_LOAD: ', key, ' -> config = ', config);
+            //console.log('VIEW_LOAD: ', key, ' -> com = ', com);
 
-                callback();
+            if (config.requiresAuth == true) {
+                _ROUTER.addRoutes([{ path: '/' + key, component: com, meta: { requiresAuth: true }, props: _DATA }]);
             } else {
-                console.error('VIEW_LOAD: cannot find component is ', key);
+                _ROUTER.addRoutes([{ path: '/' + key, component: com, props: _DATA }]);
             }
-        }, 10);
+
+            callback();
+        } else {
+            console.error('VIEW_LOAD: cannot find component is ', key);
+        }
+        //}, 10);
     };
 
     ////////Internet explorer
@@ -366,12 +366,11 @@ function f_mainSetup() {
 
         //////Load component login
         _apiViewLoad('login', function () {
-            //console.log('LOAD_VIEW: login -> done');
             _apiViewLoad('dashboard', function () {
-                //console.log('LOAD_VIEW: dashboard -> done');
                 _apiViewLoad('about', function () {
-                    //console.log('LOAD_VIEW: about -> done');
-                    _ROUTER.push('/dashboard');
+                    _apiViewLoad('toolbar', function () {
+                        _ROUTER.push('/dashboard');
+                    });
                 });
             });
         });
@@ -396,38 +395,38 @@ function f_mainLayoutInit(callback) {
         panels: [
             {
                 type: 'top', size: 30, resizable: false, hidden: true,
-                content: 'top', overflow: 'hidden', style: 'background-color: #fafafa;border:none;',
-                toolbar: {
-                    name: 'toolbar_top',
-                    style: 'padding:0px;border:none;',
-                    items: [
-                        {
-                            type: 'html', id: 'nav_item_logo',
-                            html: '<div class="nav_item_logo"><img src="/w2ui/user.jpg"/></div><div class="nav_item_logo_space"></div>'
-                        },
-                        {
-                            type: 'menu', id: 'item2', caption: '<b>IFC</b>', count: 17, items: [
-                                { text: 'Thông tin tài khoản', icon: 'mdi mdi-account', },
-                                { text: 'Đổi mật khẩu', icon: 'mdi mdi-lock' },
-                                { text: 'Cấu hình', icon: 'mdi mdi-settings' }
-                            ]
-                        },
-                        { type: 'spacer' },
-                        { type: 'radio', id: 'item3', group: '1', caption: 'task 1', icon: 'mdi mdi-file-outline', checked: true },
-                        { type: 'radio', id: 'item4', group: '1', caption: 'task 2', icon: 'mdi mdi-file-outline' },
-                        { type: 'break', id: 'break1' },
-                        {
-                            type: 'html', id: 'nav_item_notification',
-                            html: '<div class="nav_item_notification">' +
-                                ' <ul>' +
-                                '     <li class="mdi mdi-bell"><span>5</span></li>' +
-                                '     <li class="mdi mdi-email"><span>5</span></li>' +
-                                '     <li class="mdi mdi-history"><span>5</span></li>' +
-                                ' </ul>' +
-                                '</div>'
-                        }
-                    ]
-                }
+                content: '<div id="lay-toolbar"></div>', overflow: 'hidden', style: 'background-color: #fafafa;border:none;',
+                //toolbar: {
+                //    name: 'toolbar_top',
+                //    style: 'padding:0px;border:none;',
+                //    items: [
+                //        {
+                //            type: 'html', id: 'nav_item_logo',
+                //            html: '<div class="nav_item_logo"><img src="/w2ui/user.jpg"/></div><div class="nav_item_logo_space"></div>'
+                //        },
+                //        {
+                //            type: 'menu', id: 'item2', caption: '<b>IFC</b>', count: 17, items: [
+                //                { text: 'Thông tin tài khoản', icon: 'mdi mdi-account', },
+                //                { text: 'Đổi mật khẩu', icon: 'mdi mdi-lock' },
+                //                { text: 'Cấu hình', icon: 'mdi mdi-settings' }
+                //            ]
+                //        },
+                //        { type: 'spacer' },
+                //        { type: 'radio', id: 'item3', group: '1', caption: 'task 1', icon: 'mdi mdi-file-outline', checked: true },
+                //        { type: 'radio', id: 'item4', group: '1', caption: 'task 2', icon: 'mdi mdi-file-outline' },
+                //        { type: 'break', id: 'break1' },
+                //        {
+                //            type: 'html', id: 'nav_item_notification',
+                //            html: '<div class="nav_item_notification">' +
+                //                ' <ul>' +
+                //                '     <li class="mdi mdi-bell"><span>5</span></li>' +
+                //                '     <li class="mdi mdi-email"><span>5</span></li>' +
+                //                '     <li class="mdi mdi-history"><span>5</span></li>' +
+                //                ' </ul>' +
+                //                '</div>'
+                //        }
+                //    ]
+                //}
             }
             , {
                 type: 'left', size: 225, resizable: true, minSize: 0, hidden: true,
@@ -459,7 +458,7 @@ function f_mainLayoutInit(callback) {
                 type: 'main', overflow: 'hidden',
                 style: 'background-color: white; border: 1px solid silver; border-top: 0px; padding: 0px;',
                 tabs: {
-                    active: 'tab0', 
+                    active: 'tab0',
                     tabs: [
                         { id: 'tab0', caption: 'tab0', hidden: true },
                         { id: 'tab1', caption: 'tab1', hidden: true }
@@ -471,8 +470,8 @@ function f_mainLayoutInit(callback) {
                         this.click('tab0');
                     }
                 },
-                content: '<div id="view"><router-view ' + _COMS_DATA_SHARED + ' ></router-view></div>'
-                //content: '<div id="view"><p><router-link to="/about">About</router-link> | <router-link to="/dashboard">Dashboard</router-link></p><router-view></router-view></div>'
+                content: '<div id="lay-view"><router-view ' + _COMS_DATA_SHARED + ' ></router-view></div>'
+                //content: '<div id="lay-view"><p><router-link to="/about">About</router-link> | <router-link to="/dashboard">Dashboard</router-link></p><router-view></router-view></div>'
             }
             , { type: 'preview', size: '10%', resizable: true, hidden: true, content: 'preview' }
             , {
@@ -492,7 +491,7 @@ function f_mainLayoutInit(callback) {
         }
     };
 
-    $('#app').w2layout(layout_page);
+    $('#lay-app').w2layout(layout_page);
 }
 
 /**********************************************************************************/
