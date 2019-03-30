@@ -1,93 +1,14 @@
-﻿var _ROUTER, _APP, _MIXIN_GLOBAL, _MIXIN_COMS, _COMS_DATA_SHARED, _MAIN,
-    _PROPS_DATA_SHARED = ['objLang', 'objUserInfo'];
-var _DATA = {
-    objLang: {},
-    objUserInfo: {
-        loggedIn: false,
-        messages: []
-    }
-};
-
-/**********************************************************************************/
-/* [VUE] */
-
-_MIXIN_COMS = {
-    data: {
-        _eleID: null
-    },
-    created: function () {
-        var _self = this;
-        var config, _name = _self._data._name;
-        if (_name) {
-            config = window[_name.toLocaleUpperCase() + '_CONFIG'];
-            if (config)
-                _self.$data._config = config;
+﻿var _MAIN, _ROUTER, _APP, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '',
+    _PROPS = ['objLang', 'objUserInfo'],
+    _DATA = {
+        objLang: {},
+        objUserInfo: {
+            loggedIn: false,
+            messages: []
         }
-        console.log('MIXIN_COMS: created -> config = ', config);
-    },
-    mounted: function () {
-        var _self = this;
-
-        var isViewMain = _self.$el.parentElement.id == 'view';
-        _self.$data._position = isViewMain ? 'main' : 'popup';
-        if (isViewMain) {
-            _self.$el.parentElement.className = 'screen-main component ' + _self._data._name;
-        } else {
-            _self.$el.parentElement.className = 'screen-popup component ' + _self._data._name;
-        }
-        //console.log('MIXIN_COMS: mounted -> View on main = ', isViewMain);
-
-        var _id = _self.$el.id;
-        if (_id == null || _id.length == 0) {
-            _id = '___vue-com-' + _self._uid;
-            if (_self.$el && _self.$el.setAttribute) {
-                _self.$el.setAttribute('id', _id);
-            }
-        }
-        _self._eleID = _id;
-
-        console.log('MIXIN_COMS: mounted ...', _id, _self._data);
-    },
-    props: _PROPS_DATA_SHARED,
-    computed: {
-    },
-    methods: {
-        screenEmit: function (screenId) {
-            //var _self = this;
-            ////console.log('[1]', _self.screenInfo);
-            //if (screenId == null && _self.screenInfo) screenId = _self.screenInfo.Id;
-            //if (screenId == null) return;
-            ////console.log('[2]',screenId, ___SCREEN_EVENT_SUBMIT_ID[screenId], ___SCREEN_EVENT_SUBMIT_ID);
-            //if (___SCREEN_EVENT_SUBMIT_ID[screenId] == null) return;
-
-            //var screenInfoSubmit = _self.getScreenInfo(screenId);
-            //___SCREEN_EVENT_SUBMIT_ID[screenId].forEach(function (id) {
-            //    var el = document.getElementById(id);
-            //    if (el && el.__vue__) el.__vue__.$emit(screenId, screenInfoSubmit);
-            //});
-        },
-        addScreenEmit: function (screenId, funcCallback) {
-            //var _self = this;
-            ////console.log(screenId, _self._eleID);
-            //if (___SCREEN_EVENT_SUBMIT_ID[screenId] == null)
-            //    ___SCREEN_EVENT_SUBMIT_ID[screenId] = [_self._eleID];
-            //else
-            //    ___SCREEN_EVENT_SUBMIT_ID[screenId].push(_self._eleID);
-            //this.$on(screenId, funcCallback);
-        },
-        screenDialogClose: function () {
-            var dialog = this.$root;
-            if (dialog && typeof dialog['screenDialogClose'] == 'function') dialog.screenDialogClose();
-        },
-        screenDialogCloseNoCallback: function () {
-            var dialog = this.$root;
-            if (dialog && typeof dialog['screenDialogClose'] == 'function') dialog.screenDialogCloseNoCallback();
-        }
-    }
-};
-_COMS_DATA_SHARED = '';
-_MIXIN_COMS.props.forEach(function (v) { _COMS_DATA_SHARED += ' :' + v + '="' + v + '" '; });
-_MIXIN_GLOBAL = {
+    };
+_PROPS.forEach(function (v) { _DATA_SHARED += ' :' + v + '="' + v + '" '; });
+_MIXIN = {
     computed: {
         screenCurrentId: function () {
             var _self = this;
@@ -207,9 +128,6 @@ _MIXIN_GLOBAL = {
     }
 };
 
-/**********************************************************************************/
-/* [API] */
-
 function _apiGet(url) {
     var request = new XMLHttpRequest();
     request.open('GET', url, false);  // `false` makes the request synchronous
@@ -217,9 +135,6 @@ function _apiGet(url) {
     if (request.status === 200) return request.responseText;
     return '';
 }
-
-/**********************************************************************************/
-/* [MAIN] */
 
 _MAIN = {
     init: function () {
@@ -240,7 +155,7 @@ _MAIN = {
                     _MAIN.viewLoad('about', function () {
                         _MAIN.viewLoad('toolbar', function () {
                             _ROUTER.push('/dashboard');
-                        });
+                        }, true);
                     });
                 });
             });
@@ -339,7 +254,7 @@ _MAIN = {
                             this.click('tab0');
                         }
                     },
-                    content: '<div id="lay-view"><router-view ' + _COMS_DATA_SHARED + ' ></router-view></div>'
+                    content: '<div id="lay-view"><router-view ' + _DATA_SHARED + ' ></router-view></div>'
                     //content: '<div id="lay-view"><p><router-link to="/about">About</router-link> | <router-link to="/dashboard">Dashboard</router-link></p><router-view></router-view></div>'
                 }
                 , { type: 'preview', size: '10%', resizable: true, hidden: true, content: 'preview' }
@@ -373,7 +288,7 @@ _MAIN = {
         w2ui['layout_main'].get('main').tabs.show('tab0');
         w2ui['layout_main'].get('main').tabs.show('tab1');
 
-        _MAIN.vueRenderById('lay-toolbar', '<toolbar ' + _COMS_DATA_SHARED + ' ></toolbar>');
+        _MAIN.vueRenderById('lay-toolbar', '<toolbar ' + _DATA_SHARED + ' ></toolbar>');
     },
     vueInit: function () {
         _ROUTER = new VueRouter();
@@ -404,10 +319,8 @@ _MAIN = {
             console.log('ROUTER: ready ...');
         });
         _APP = new Vue({
-            mixins: [_MIXIN_GLOBAL],
-            data: function () {
-                return _DATA;
-            },
+            mixins: [_MIXIN],
+            data: function () { return _DATA; },
             el: '#lay-view',
             router: _ROUTER,
             mounted: function () {
@@ -441,46 +354,30 @@ _MAIN = {
     vueRenderById: function (id, temp) {
         var el = document.getElementById(id);
         if (el) {
-            var vueScreenExtend = Vue.extend({
-                mixins: [_MIXIN_COMS, _MIXIN_GLOBAL],
-                template: temp,
-                created: function () {
-                    //console.log('=============== dialog.created:: DATA = ', this.$data);
-                    //console.log('created:: screenInfo = ', this.screenInfo);
-                },
-                mounted: function () {
-                    //pushScreen(this);
-                    //console.log('mounted:: screenInfo = ', this.screenInfo);
-                },
-                beforeDestroy: function () {
-                    //if (!this.bodyVue._isDestroyed)
-                    //    this.bodyVue.$destroy();
-                    //this.$el.remove();
-                    //popScreen(this);
-                },
-                computed: {
-                },
-                destroyed: function () {
-                    //console.log('_HOMEUI_DIALOG_VUE_MIXIN_COMS.destroyed =', this.Options); 
-                    var _self = this;
-                },
-                methods: {
-                },
-                watch: {
-                }
-            });
-
             var div = document.createElement('div');
             el.appendChild(div);
 
-            var frameImpl = new vueScreenExtend({ data: _DATA });
-            var frameVue = frameImpl.$mount(div);
+            var objVue = new Vue({
+                mixins: [_MIXIN],
+                data: function () { return _DATA; },
+                template: '<div><toolbar ' + _DATA_SHARED + '></toolbar></div>',
+                el: '#' + id,
+                created: function () {
+                    console.log('=============== dialog.created:: DATA = ', this.$data);
+                    //console.log('created:: screenInfo = ', this.screenInfo);
+                },
+                mounted: function () {
+                    console.log('=============== dialog.mounted:: DATA = ', this.$data);
+                    //console.log('created:: screenInfo = ', this.screenInfo);
+                }
+            });
+            //objVue.$mount(div);
 
-            return frameVue;
+            return objVue;
         }
         return null;
     },
-    viewLoad: function (viewName, callback) {
+    viewLoad: function (viewName, callback, noRouter) {
         //console.log('VIEW_LOAD ...');
 
         var file = 'view/' + viewName + '/css.css';
@@ -511,14 +408,21 @@ _MAIN = {
                 config = window[key.toLocaleUpperCase() + '_CONFIG'],
                 com = window[key.toLocaleUpperCase() + '_COM'];
 
-            if (com && config) {
+            if (config) {
                 console.log('VIEW_LOAD: ', key, ' -> config = ', config);
                 //console.log('VIEW_LOAD: ', key, ' -> com = ', com);
 
-                if (config.requiresAuth == true) {
-                    _ROUTER.addRoutes([{ path: '/' + key, component: com, meta: { requiresAuth: true }, props: _DATA }]);
+                if (noRouter != true) {
+                    config.noRouter = false;
+                    if (com) {
+                        if (config.requiresAuth == true) {
+                            _ROUTER.addRoutes([{ path: '/' + key, component: com, meta: { requiresAuth: true }, props: _DATA }]);
+                        } else {
+                            _ROUTER.addRoutes([{ path: '/' + key, component: com, props: _DATA }]);
+                        }
+                    }
                 } else {
-                    _ROUTER.addRoutes([{ path: '/' + key, component: com, props: _DATA }]);
+                    config.noRouter = true;
                 }
 
                 callback();

@@ -3,7 +3,8 @@
 };
 
 var LOGIN_COM = Vue.component('login', {
-    mixins: [_MIXIN_COMS, _MIXIN_GLOBAL],
+    mixins: [_MIXIN],
+    props: _PROPS,
     data: function () {
         var data = {
             _name: 'login',

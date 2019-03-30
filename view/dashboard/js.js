@@ -3,7 +3,8 @@
 };
 
 var DASHBOARD_COM = {
-    mixins: [_MIXIN_COMS, _MIXIN_GLOBAL],
+    mixins: [_MIXIN],
+    props: _PROPS,
     data: function () {
         var data = {
             _name: 'dashboard',
