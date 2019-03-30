@@ -19,10 +19,6 @@ var TOOLBAR_COM = Vue.component('toolbar', {
     methods: {
         btnLoginClick: function () {
             var _self = this;
-
-            //console.log('????????????? ', this.objUserInfo.loggedIn);
-            this.objUserInfo.loggedIn = true;
-            _ROUTER.push(this.$route.query.redirect);
         }
     }
 });
