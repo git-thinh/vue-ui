@@ -3,8 +3,7 @@
 };
 
 Vue.component('toolbar', {
-    mixins: [_MIXIN],
-    props: _PROPS,
+    mixins: [_MIXIN, _COMS],
     data: function () {
         var data = {
             _name: 'toolbar',

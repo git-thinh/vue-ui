@@ -1,13 +1,15 @@
-﻿var _MAIN, _ROUTER, _APP, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '',
-    _PROPS = ['objLang', 'objUserInfo'],
-    _DATA = {
-        objLang: {},
-        objUserInfo: {
-            loggedIn: false,
-            messages: []
-        }
-    };
+﻿var _DATA = {
+    objLang: {},
+    objUserInfo: {
+        loggedIn: false,
+        messages: []
+    }
+};
+var _MAIN, _ROUTER, _APP, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [];
+for (var key in _DATA) { _PROPS.push(key); }
 _PROPS.forEach(function (v) { _DATA_SHARED += ' :' + v + '="' + v + '" '; });
+var _COMS = { props: _PROPS };
+/////////////////////////////////////////////////////////////////////////////////
 _MIXIN = {
     computed: {
         screenCurrentId: function () {
@@ -19,32 +21,6 @@ _MIXIN = {
         }
     },
     methods: {
-        getScreenInfo: function (screenId) {
-            var _self = this;
-            if (_self.objScreens != null && _self.objScreens[screenId] != null) {
-                return _self.objScreens[screenId];
-            }
-            return null;
-        },
-        getVueObjectWidget: function (page, x, y, width, height) {
-            //var el = document.getElementById('wi-a1-c3-r1-s11');
-            var el = document.getElementById('wi-a' + page + '-c' + (x + 1) + '-r' + (y + 1) + '-s' + width + '' + height);
-            if (el) {
-                var pa = el.querySelector('.wiget-card');
-                if (pa && pa.__vue__) return pa.__vue__;
-            }
-            return null;
-        },
-        getDataTextSynchronous: function (url) {
-            //if (url.indexOf('/') != 0) url = '/' + url;
-            //if (url.indexOf('http') != 0) url = 'http://' + ___NODEJS_HOST + url;
-            //f_log_kit(url);
-            var r = new XMLHttpRequest();
-            r.open('GET', url, false);
-            r.send(null);
-            if (r.status === 200) return r.responseText;
-            return '';
-        },
         screenOpen: function (options) {
             var parentId = '';
             if (this.$el == null) {
@@ -127,6 +103,7 @@ _MIXIN = {
         }
     }
 };
+/////////////////////////////////////////////////////////////////////////////////
 
 function _apiGet(url) {
     var request = new XMLHttpRequest();
