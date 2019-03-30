@@ -1,9 +1,10 @@
-﻿var _ROUTER, _APP, _MIXIN_GLOBAL, _MIXIN_COMS, _COMS_DATA_SHARED,
+﻿var _ROUTER, _APP, _MIXIN_GLOBAL, _MIXIN_COMS, _COMS_DATA_SHARED, _LAYOUT,
     _PROPS_DATA_SHARED = ['objLang', 'objUserInfo'];
 var _DATA = {
     objLang: {},
     objUserInfo: {
-        loggedIn: false
+        loggedIn: false,
+        messages: []
     }
 };
 
@@ -243,6 +244,25 @@ function f_vueInit() {
         router: _ROUTER,
         mounted: function () {
             console.log('SCREEN_MAIN: mounted ...');
+        },
+        methods: {
+            userLoginCallback: function () {
+                var _self = this;
+                _LAYOUT.displayAll(_self.objUserInfo.loggedIn);
+            },
+            userNotifacationMessagesCallback: function () {
+            },
+        },
+        watch: {
+            'objUserInfo.messages': {
+                handler: function (val) {
+                    this.userNotifacationMessagesCallback();
+                },
+                deep: true
+            },
+            'objUserInfo.loggedIn': function (newVal, oldVal) {
+                this.userLoginCallback();
+            }
         }
     });
 }
@@ -318,6 +338,19 @@ function _apiViewLoad(viewName, callback) {
 /**********************************************************************************/
 /* [MAIN] */
 
+_LAYOUT = {
+    displayAll: function (isDisplay) {
+        w2ui['layout_main'].toggle('top', isDisplay);
+        w2ui['layout_main'].toggle('left', isDisplay);
+        w2ui['layout_main'].toggle('right', isDisplay);
+        w2ui['layout_main'].toggle('preview', isDisplay);
+        w2ui['layout_main'].toggle('bottom', isDisplay);
+
+        w2ui['layout_main'].get('main').tabs.show('tab0');
+        w2ui['layout_main'].get('main').tabs.show('tab1');
+    },
+};
+
 function f_mainInit() {
     console.log('MAIN_INIT ...');
     $(document).ready(function () {
@@ -358,7 +391,7 @@ function f_mainSetup() {
 
 function f_mainLayoutInit(callback) {
     var layout_page = {
-        name: 'layout_page',
+        name: 'layout_main',
         padding: 0,
         panels: [
             {
@@ -425,19 +458,19 @@ function f_mainLayoutInit(callback) {
             , {
                 type: 'main', overflow: 'hidden',
                 style: 'background-color: white; border: 1px solid silver; border-top: 0px; padding: 0px;',
-                ////tabs: {
-                ////    active: 'tab0', 
-                ////    tabs: [
-                ////        { id: 'tab0', caption: 'tab0', hidden: true },
-                ////        { id: 'tab1', caption: 'tab1', hidden: true }
-                ////    ],
-                ////    onClick: function (event) {
-                ////        //w2ui.layout.html('main', 'Active tab: ' + event.target);
-                ////    },
-                ////    onClose: function (event) {
-                ////        this.click('tab0');
-                ////    }
-                ////},
+                tabs: {
+                    active: 'tab0', 
+                    tabs: [
+                        { id: 'tab0', caption: 'tab0', hidden: true },
+                        { id: 'tab1', caption: 'tab1', hidden: true }
+                    ],
+                    onClick: function (event) {
+                        //w2ui.layout.html('main', 'Active tab: ' + event.target);
+                    },
+                    onClose: function (event) {
+                        this.click('tab0');
+                    }
+                },
                 content: '<div id="view"><router-view ' + _COMS_DATA_SHARED + ' ></router-view></div>'
                 //content: '<div id="view"><p><router-link to="/about">About</router-link> | <router-link to="/dashboard">Dashboard</router-link></p><router-view></router-view></div>'
             }
