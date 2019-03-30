@@ -6,10 +6,17 @@
 }
 
 #lay-left {
-    width: 255px;
+    float: left;
 }
 
 #lay-main {
+    float: right;
+}
+
+
+#lay-left,
+#lay-main {
+    min-height: 100px;
 }
 
 #lay-right {

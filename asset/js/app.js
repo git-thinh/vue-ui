@@ -94,7 +94,9 @@ _MAIN = {
             //Load component login
             _MAIN.viewLoad('login', function () {
                 _MAIN.viewLoad('dashboard', function () {
-                    _MAIN.vueInit();
+                    _MAIN.vueInit(function () {
+                        _ROUTER.push('/dashboard');
+                    });
                 });
             });
 
@@ -124,8 +126,9 @@ _MAIN = {
     onLoginSuccess: function () {
         console.log('SCREEN_MAIN: LOGIN_OK ...');
         _MAIN.vueRenderComponent('lay-top', 'toolbar');
+        _MAIN.vueRenderComponent('lay-left-sidebar', 'left-sidebar');
     },
-    vueInit: function () {
+    vueInit: function (callback) {
         _APP = new Vue({
             mixins: [_MIXIN],
             data: function () { return _DATA; },
@@ -133,7 +136,7 @@ _MAIN = {
             router: _ROUTER,
             mounted: function () {
                 console.log('SCREEN_MAIN: mounted ...');
-                _ROUTER.push('/dashboard');
+                if (callback) callback();
             },
             methods: {
                 userLoginCallback: function () {
