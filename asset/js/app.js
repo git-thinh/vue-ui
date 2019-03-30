@@ -349,6 +349,12 @@ _LAYOUT = {
         w2ui['layout_main'].get('main').tabs.show('tab0');
         w2ui['layout_main'].get('main').tabs.show('tab1');
     },
+    mainToolbarSetup: function () {
+        var elToolbar = document.getElementById('lay-toolbar');
+        if (elToolbar) {
+
+        }
+    }
 };
 
 function f_mainInit() {
