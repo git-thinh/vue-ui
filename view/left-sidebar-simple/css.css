@@ -31,3 +31,10 @@ ul.fancytree-container >li >.fancytree-node .fancytree-expander {
 ul.fancytree-container >li >ul {
 	padding-left: 0;
 }
+
+
+.fancytree-custom-icon svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: -.125em;
+}

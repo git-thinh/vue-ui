@@ -71,6 +71,13 @@ $(function () {
 });
 /////////////////////////////////////////////////////////////////////////////////
 
+function _svg(className, addClass) {
+    var id = className.replace(/ /g, "-"),
+      cn = addClass ? " " + addClass : "",
+      html = '<svg class="svg-inline--fa fa-w-20' + cn + '"><use xlink:href="#' + id + '"></use></svg>';
+    return { html: html };
+}
+
 function _apiGo(path) { _MAIN.go(path); }
 function _apiGet(url) {
     var request = new XMLHttpRequest();
@@ -126,7 +133,7 @@ _MAIN = {
     onLoginSuccess: function () {
         console.log('SCREEN_MAIN: LOGIN_OK ...');
         _MAIN.vueRenderComponent('lay-top', 'toolbar');
-        _MAIN.vueRenderComponent('lay-left-sidebar', 'left-sidebar');
+        _MAIN.vueRenderComponent('lay-left-sidebar', 'left-sidebar-glyph');
     },
     vueInit: function (callback) {
         _APP = new Vue({
