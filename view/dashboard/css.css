@@ -1,25 +1,4 @@
 ﻿
-.component.dashboard .i {
-    stroke: currentColor;
-    stroke-width: 2px;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
-    width: 1em;
-    height: 1em;
-    margin: 0.4em;
+.component.dashboard { 
 }
-
-.component.dashboard svg, .component.dashboard svg symbol {
-    overflow: visible;
-}
-
-.component.dashboard div { margin: 1em }
-
-.component.dashboard .i-large div { font-size: 4em; margin: 0 }
-.component.dashboard .i-medium div { font-size: 2em; margin: 0 }
-.component.dashboard .i-small div { font-size: 1.5em; margin: 0 }
-
-.component.dashboard .i-large,
-.component.dashboard .i-medium,
-.component.dashboard .i-small { max-width: 50em; margin: 0 auto 2em }
+ 

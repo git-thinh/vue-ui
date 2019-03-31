@@ -71,6 +71,7 @@ $(function () {
 });
 /////////////////////////////////////////////////////////////////////////////////
 
+function _apiGo(path) { _MAIN.go(path); }
 function _apiGet(url) {
     var request = new XMLHttpRequest();
     request.open('GET', url, false);  // `false` makes the request synchronous
@@ -91,11 +92,6 @@ _MAIN = {
 
         _MAIN.layoutInit(function () {
 
-            //_MAIN.viewLoad('login', function () {
-            //    _MAIN.viewGo('icons');
-            //});
-
-            //Load component login
             _MAIN.viewLoad('login', function () {
                 _MAIN.viewLoad('dashboard', function () {
                     _MAIN.vueInit(function () {
@@ -262,6 +258,14 @@ _MAIN = {
         _MAIN.viewLoad(viewName, function () {
             _ROUTER.push('/' + viewName);
         });
+    },
+    go: function (path) {
+        var a = path.split('/');
+        var viewName = a[0].length == 0 ? a[1] : a[0];
+        _MAIN.viewLoad(viewName, function () {
+            //_MAIN.viewGo(viewName);
+            _ROUTER.push(path);
+        });        
     }
 };
 _MAIN.init();

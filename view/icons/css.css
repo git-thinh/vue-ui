@@ -1,5 +1,5 @@
 ﻿
-.component.dashboard .i {
+.component.icons .i {
     stroke: currentColor;
     stroke-width: 2px;
     stroke-linecap: round;
@@ -10,16 +10,16 @@
     margin: 0.4em;
 }
 
-.component.dashboard svg, .component.dashboard svg symbol {
+.component.icons svg, .component.icons svg symbol {
     overflow: visible;
 }
 
-.component.dashboard div { margin: 1em }
+.component.icons div { margin: 1em }
 
-.component.dashboard .i-large div { font-size: 4em; margin: 0 }
-.component.dashboard .i-medium div { font-size: 2em; margin: 0 }
-.component.dashboard .i-small div { font-size: 1.5em; margin: 0 }
+.component.icons .i-large div { font-size: 4em; margin: 0 }
+.component.icons .i-medium div { font-size: 2em; margin: 0 }
+.component.icons .i-small div { font-size: 1.5em; margin: 0 }
 
-.component.dashboard .i-large,
-.component.dashboard .i-medium,
-.component.dashboard .i-small { max-width: 50em; margin: 0 auto 2em }
+.component.icons .i-large,
+.component.icons .i-medium,
+.component.icons .i-small { max-width: 50em; margin: 0 auto 2em }

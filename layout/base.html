@@ -1,48 +1,16 @@
 ﻿<div id="lay-top" v-show="objUserInfo.loggedIn"></div>
 <div id="lay-"></div>
 <div id="lay-body">
-    <div id="lay-left" v-show="objUserInfo.loggedIn" style="width:235px;float:left;">
+    <div id="lay-left" v-show="objUserInfo.loggedIn" style="width:199px;float:left;padding:0 7px;">
         <div id="lay-left-toolbar"></div>
         <div id="lay-left-sidebar"></div>
     </div>
-    <div id="lay-main" style="float:right;" v-bind:style="{ width: objUserInfo.loggedIn ? 'calc(100% - 265px)' : '100%' }">
-        <div id="lay-message" v-bind:style="{ padding: objUserInfo.loggedIn ? '10px 10px 10px 0' : '10px' }">
+    <div id="lay-main" style="float:right;padding:0 7px;" v-bind:style="{ width: objUserInfo.loggedIn ? 'calc(100% - 199px)' : '100%' }">
+        <div id="lay-message">
             <div class="alert alert-success alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <strong>Success!</strong> Indicates a successful or positive action.
             </div>
-            <!--<div class="alert alert-success alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Success!</strong> This alert box could indicate a successful or positive action.
-            </div>
-            <div class="alert alert-info alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Info!</strong> This alert box could indicate a neutral informative change or action.
-            </div>
-            <div class="alert alert-warning alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Warning!</strong> This alert box could indicate a warning that might need attention.
-            </div>
-            <div class="alert alert-danger alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
-            </div>
-            <div class="alert alert-primary alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Primary!</strong> Indicates an important action.
-            </div>
-            <div class="alert alert-secondary alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Secondary!</strong> Indicates a slightly less important action.
-            </div>
-            <div class="alert alert-dark alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Dark!</strong> Dark grey alert.
-            </div>
-            <div class="alert alert-light alert-dismissible fade show">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Light!</strong> Light grey alert.
-            </div>-->
         </div>
         <div id="lay-view">
             <router-view></router-view>
