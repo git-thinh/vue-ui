@@ -1,0 +1,33 @@
+﻿
+.component.left-sidebar .list-group-item {
+    border: none !important;
+    background-color: transparent !important;
+}
+
+ul.fancytree-container {
+	/* border-right: 1px solid gray; */
+	width: 100%;
+	overflow: hidden;
+	/* The expand animations result in ugly focus outline artefacts, so hide those. */
+	outline: 0;
+	border: none;
+	background-color: transparent;
+}
+/* Display top level nodes as accordion header. */
+ul.fancytree-container >li >.fancytree-node span.fancytree-title {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 4px;
+	margin: 0;
+	background-color: transparent;
+	border:none;
+	font-weight: 550;
+}
+/* Hide  expanders for top-level nodes */
+ul.fancytree-container >li >.fancytree-node .fancytree-expander {
+	display: none;
+}
+/* Don't indent level-2 nodes */
+ul.fancytree-container >li >ul {
+	padding-left: 0;
+}

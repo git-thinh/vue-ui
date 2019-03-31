@@ -91,6 +91,10 @@ _MAIN = {
 
         _MAIN.layoutInit(function () {
 
+            //_MAIN.viewLoad('login', function () {
+            //    _MAIN.viewGo('icons');
+            //});
+
             //Load component login
             _MAIN.viewLoad('login', function () {
                 _MAIN.viewLoad('dashboard', function () {
@@ -119,7 +123,7 @@ _MAIN = {
         var el = document.getElementById('lay-app');
         if (el) {
             el.innerHTML = html;
-            if (callback && typeof callback == 'function') setTimeout(callback, 1);
+            if (callback && typeof callback == 'function') setTimeout(callback, 10);
         }
     },
     onLogout: function () { },
@@ -198,6 +202,7 @@ _MAIN = {
         var notExist = document.querySelectorAll('#view_js_' + viewName).length == 0;
         if (notExist == false) {
             console.error('VIEW [' + viewName + '] RESOURCE EXIST ...');
+            if (callback && typeof callback == 'function') callback();
             return;
         }
 
@@ -238,7 +243,7 @@ _MAIN = {
                     config.noRouter = true;
                 }
 
-                callback();
+                if (callback && typeof callback == 'function') callback();
             } else {
                 console.error('VIEW_LOAD: cannot find component is ', key);
             }
@@ -252,6 +257,11 @@ _MAIN = {
         //////    }
         //////};
         head.appendChild(script);
+    },
+    viewGo: function (viewName) {
+        _MAIN.viewLoad(viewName, function () {
+            _ROUTER.push('/' + viewName);
+        });
     }
 };
 _MAIN.init();
