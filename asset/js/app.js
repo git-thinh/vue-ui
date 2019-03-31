@@ -1,5 +1,6 @@
 ﻿var _DATA = {
     objLang: {},
+    objAlert: [{ text: '<strong>Success!</strong> Indicates a successful or positive action.', css: 'alert alert-success alert-dismissible' }],
     objUserInfo: {
         loggedIn: false,
         messages: []
@@ -272,7 +273,7 @@ _MAIN = {
         _MAIN.viewLoad(viewName, function () {
             //_MAIN.viewGo(viewName);
             _ROUTER.push(path);
-        });        
+        });
     }
 };
 _MAIN.init();

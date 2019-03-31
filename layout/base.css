@@ -4,5 +4,24 @@
     overflow: hidden;
     color: #202124;
     font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
-    background-color:#B2D5EE;
+    background-color: #B2D5EE;
+}
+
+#lay-main {
+    padding: 0px 7px;
+    width: calc(100% - 199px);
+    height: calc(100vh - 60px);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    flex: 1 auto;
+    right: 0;
+    bottom: 10px;
+    background-color: red;
+}
+
+#lay-view {
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }

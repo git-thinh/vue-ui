@@ -7,12 +7,12 @@
     </div>
     <div id="lay-main" style="float:right;padding:0 7px;" v-bind:style="{ width: objUserInfo.loggedIn ? 'calc(100% - 199px)' : '100%' }">
         <div id="lay-message">
-            <div class="alert alert-success alert-dismissible">
+            <div :class="[objAlert[0].css]">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Success!</strong> Indicates a successful or positive action.
+                <span v-html="objAlert[0].text"></span>
             </div>
         </div>
-        <div id="lay-view">
+        <div id="lay-view" v-bind:style="{ height: objAlert.length == 0 ? '100vh' : 'calc(100vh - 99px)' }">
             <router-view></router-view>
         </div>
     </div>
