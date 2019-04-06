@@ -6,10 +6,11 @@
         messages: []
     }
 };
-var _MAIN, _ROUTER, _APP, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [], _COMS, _ALLVUE = [], _VIEW_CURRENT;
+var _MAIN, _ROUTER, _APP, _COMS, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [], _ALLVUE = [], _VIEW_CURRENT;
 for (var key in _DATA) { _PROPS.push(key); }
 _PROPS.forEach(function (v) { _DATA_SHARED += ' :' + v + '="' + v + '" '; });
 /////////////////////////////////////////////////////////////////////////////////
+/* _COMS, _MIXIN */
 $(function () {
     _COMS = {
         props: _PROPS,
@@ -52,9 +53,14 @@ $(function () {
                         });
                     }
                 });
+
+                setTimeout(function () {
+                    console.error('SHOW VIEW ...');
+                    document.getElementById('lay-view').style.opacity = 1;
+                }, 500);
             }
 
-            console.log('MIXIN_COMS: ' + _self._data._name + ' mounted ...', _id, _self._data);
+            console.log('MIXIN_COMS: ' + _self._data._name + ' mounted ...', _id);
         }
     };
     _MIXIN = {
@@ -72,7 +78,7 @@ $(function () {
                 if (viewName) {
                     var key = viewName.toLocaleUpperCase().split('-').join('_') + '_CONFIG',
                         config = window[key];
-                    console.log(key, config);
+                    //console.log(key, config);
                     return config;
                 }
                 return null;
@@ -97,6 +103,9 @@ $(function () {
     });
     _ROUTER.afterEach((to, from) => {
         if (to && to.matched.length > 0) {
+            console.error('HIDE VIEW ...');
+            document.getElementById('lay-view').style.opacity = 0;
+
             var view = to.matched[0].path.substr(1);
             //console.log('ROUTER.afterEach: to = ', to);
             console.log('ROUTER: call = ', view);
@@ -155,15 +164,13 @@ _MAIN = {
             if (callback && typeof callback == 'function') setTimeout(callback, 10);
         }
     },
-    onOtherViewLoadCompleted: function (viewName) {
-
-    },
     onLogout: function () { },
     onLoginSuccess: function () {
         console.log('SCREEN_MAIN: LOGIN_OK ...');
         _MAIN.vueCreateNewInstaceOnArea('lay-top', 'toolbar');
-        _MAIN.vueCreateNewInstaceOnArea('lay-left-sidebar', 'left-sidebar-fancytree');
         _MAIN.vueCreateNewInstaceOnArea('lay-breadcrumb', 'breadcrumb');
+        //_MAIN.vueCreateNewInstaceOnArea('lay-left-sidebar', 'left-sidebar-list-simple');
+        _MAIN.vueCreateNewInstaceOnArea('lay-left-sidebar', 'left-sidebar-fancytree');
     },
     vueInit: function (callback) {
         _APP = new Vue({
@@ -266,7 +273,7 @@ _MAIN = {
             if (config) {
                 config.name = key;
 
-                console.log('VIEW_LOAD: ', key, ' -> config = ', config);
+                console.log('VIEW_LOAD: ', key, ' -> ', key);
                 //console.log('VIEW_LOAD: ', key, ' -> com = ', com);
 
                 if (config.noRouter != true) {
