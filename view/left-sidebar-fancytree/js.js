@@ -20,8 +20,10 @@ Vue.component('left-sidebar-fancytree', {
             return $('#' + _self.treeCategoryId);
         },
         treeOption: function () {
-            var _self = this;
-            return $('#' + _self.treeCategoryId).getOption();
+            var _self = this, tree = _self.treeItem.fancytree('getTree');
+            if (tree && tree.getOption && typeof tree.getOption == 'function')
+                return tree.getOption().options;
+            return null;
         },
     },
     mounted: function () {
@@ -108,5 +110,11 @@ Vue.component('left-sidebar-fancytree', {
         //});
     },
     methods: {
+        _onOtherViewLoadCompleted: function (viewSetting) {
+            var _self = this;
+            console.log('LEFT-SIDEBAR-FANCYTREE: _onOtherViewLoadCompleted = ', viewSetting, _self.treeOption);
+            if(_self.treeOption && _self.treeOption.disabled == true)
+                _self.treeItem.fancytree("enable");
+        }
     }
 });

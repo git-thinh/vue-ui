@@ -6,13 +6,24 @@
         messages: []
     }
 };
-var _MAIN, _ROUTER, _APP, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [], _COMS;
+var _MAIN, _ROUTER, _APP, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [], _COMS, _ALLVUE = [], _VIEW_CURRENT;
 for (var key in _DATA) { _PROPS.push(key); }
 _PROPS.forEach(function (v) { _DATA_SHARED += ' :' + v + '="' + v + '" '; });
 /////////////////////////////////////////////////////////////////////////////////
 $(function () {
     _COMS = {
         props: _PROPS,
+        computed: {
+            ViewConfig: function () {
+                if (this._name) {
+                    var key = this._name.toLocaleUpperCase().split('-').join('_') + '_CONFIG',
+                        config = window[key];
+                    console.log(key, config);
+                    return config;
+                }
+                return null;
+            }
+        },
         mounted: function () {
             var _self = this;
 
@@ -26,6 +37,22 @@ $(function () {
                 }
             }
             _self._eleID = _id;
+
+            //if (_self._onOtherViewLoadCompleted && typeof _self._onOtherViewLoadCompleted == 'function')
+            //    _self.$on('_onOtherViewLoadCompleted', _self._onOtherViewLoadCompleted);
+
+            if (_VIEW_CURRENT) {
+                _ALLVUE.forEach(function (v) {
+                    if (v && v.$children) {
+                        v.$children.forEach(function (cm) {
+                            setTimeout(function () {
+                                if (cm && cm._onOtherViewLoadCompleted && typeof cm._onOtherViewLoadCompleted == 'function')
+                                    cm._onOtherViewLoadCompleted(_self.getViewConfig(_VIEW_CURRENT));
+                            }, 1);
+                        });
+                    }
+                });
+            }
 
             console.log('MIXIN_COMS: ' + _self._data._name + ' mounted ...', _id, _self._data);
         }
@@ -41,6 +68,15 @@ $(function () {
             }
         },
         methods: {
+            getViewConfig: function (viewName) {
+                if (viewName) {
+                    var key = viewName.toLocaleUpperCase().split('-').join('_') + '_CONFIG',
+                        config = window[key];
+                    console.log(key, config);
+                    return config;
+                }
+                return null;
+            },
             screenAlertOpen: function () {
             },
             screenWarningOpen: function () {
@@ -107,17 +143,6 @@ _MAIN = {
                     });
                 });
             });
-
-            //if (_DATA.objUserInfo.loggedIn == true) {
-            //    _MAIN.viewLoad('dashboard', function () {
-            //        //console.log('LOAD_VIEW: dashboard -> done');
-            //    });
-            //} else {
-            //    _MAIN.viewLoad('login', function () {
-            //        //console.log('LOAD_VIEW: login -> done');
-            //        _ROUTER.push('/login');
-            //    });
-            //}
         });
     },
     layoutInit: function (callback) {
@@ -130,12 +155,15 @@ _MAIN = {
             if (callback && typeof callback == 'function') setTimeout(callback, 10);
         }
     },
+    onOtherViewLoadCompleted: function (viewName) {
+
+    },
     onLogout: function () { },
     onLoginSuccess: function () {
         console.log('SCREEN_MAIN: LOGIN_OK ...');
-        _MAIN.vueRenderComponent('lay-top', 'toolbar');
-        _MAIN.vueRenderComponent('lay-left-sidebar', 'left-sidebar-fancytree');
-        _MAIN.vueRenderComponent('lay-breadcrumb', 'breadcrumb');
+        _MAIN.vueCreateNewInstaceOnArea('lay-top', 'toolbar');
+        _MAIN.vueCreateNewInstaceOnArea('lay-left-sidebar', 'left-sidebar-fancytree');
+        _MAIN.vueCreateNewInstaceOnArea('lay-breadcrumb', 'breadcrumb');
     },
     vueInit: function (callback) {
         _APP = new Vue({
@@ -170,15 +198,16 @@ _MAIN = {
                 }
             }
         });
+        _ALLVUE.push(_APP);
     },
-    vueRenderComponent: function (idElemMount, componentName) {
+    vueCreateNewInstaceOnArea: function (idElemMount, componentName) {
         var el = document.getElementById(idElemMount);
         if (el) {
 
             var notExist = document.querySelectorAll('#view_js_' + componentName).length == 0;
             if (notExist == true) {
                 _MAIN.viewLoad(componentName, function () {
-                    _MAIN.vueRenderComponent(idElemMount, componentName);
+                    _MAIN.vueCreateNewInstaceOnArea(idElemMount, componentName);
                 });
                 return;
             }
@@ -194,6 +223,8 @@ _MAIN = {
             });
             objVue.$mount(div);
 
+            _ALLVUE.push(objVue);
+
             return objVue;
         }
         return null;
@@ -207,6 +238,7 @@ _MAIN = {
         var notExist = document.querySelectorAll('#view_js_' + viewName).length == 0;
         if (notExist == false) {
             console.error('VIEW [' + viewName + '] RESOURCE EXIST ...');
+            _VIEW_CURRENT = viewName;
             if (callback && typeof callback == 'function') callback();
             return;
         }
@@ -232,6 +264,8 @@ _MAIN = {
                 com = window[name.toLocaleUpperCase() + '_COM'];
 
             if (config) {
+                config.name = key;
+
                 console.log('VIEW_LOAD: ', key, ' -> config = ', config);
                 //console.log('VIEW_LOAD: ', key, ' -> com = ', com);
 
@@ -247,6 +281,8 @@ _MAIN = {
                 } else {
                     config.noRouter = true;
                 }
+
+                _VIEW_CURRENT = viewName;
 
                 if (callback && typeof callback == 'function') callback();
             } else {
