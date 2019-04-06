@@ -6,7 +6,8 @@
         messages: []
     }
 };
-var _MAIN, _ROUTER, _APP, _COMS, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [], _ALLVUE = [], _VIEW_CURRENT;
+var _MAIN, _ROUTER, _APP, _COMS, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [], _ALLVUE = [],
+    _VIEW_CURRENT, _VIEW_TIME_OUT = 500;
 for (var key in _DATA) { _PROPS.push(key); }
 _PROPS.forEach(function (v) { _DATA_SHARED += ' :' + v + '="' + v + '" '; });
 /////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +25,10 @@ $(function () {
                 }
                 return null;
             }
+        },
+        created: function () {
+            //console.log('CREATED .............');
+            //document.getElementById('lay-view').style.display = 'inline-block';
         },
         mounted: function () {
             var _self = this;
@@ -43,6 +48,12 @@ $(function () {
             //    _self.$on('_onOtherViewLoadCompleted', _self._onOtherViewLoadCompleted);
 
             if (_VIEW_CURRENT) {
+                setTimeout(function () {
+                    console.error('HIDE WAITING LOADING VIEW ...');
+                    console.log('SHOW VIEW ...');
+                    _self.viewMainOpacity(1);
+                }, _VIEW_TIME_OUT);
+
                 _ALLVUE.forEach(function (v) {
                     if (v && v.$children) {
                         v.$children.forEach(function (cm) {
@@ -53,11 +64,6 @@ $(function () {
                         });
                     }
                 });
-
-                setTimeout(function () {
-                    console.error('SHOW VIEW ...');
-                    _self.viewMainOpacity(1);
-                }, 500);
             }
 
             console.log('MIXIN_COMS: ' + _self._data._name + ' mounted ...', _id);
@@ -75,6 +81,7 @@ $(function () {
         },
         methods: {
             viewMainOpacity: function (opacity) {
+                //if (opacity == 0) document.getElementById('lay-view').style.display = 'none';
                 document.getElementById('lay-view').style.opacity = opacity;
             },
             getViewConfig: function (viewName) {
@@ -107,8 +114,9 @@ $(function () {
     _ROUTER.afterEach((to, from) => {
         if (to && to.matched.length > 0) {            
             if (_APP) {
-                console.error('HIDE VIEW ...');
+                console.log('HIDE VIEW ...');
                 _APP.viewMainOpacity(0);
+                console.error('SHOW WAITING LOADING VIEW ...');
             }
 
             var view = to.matched[0].path.substr(1);
@@ -249,7 +257,7 @@ _MAIN = {
 
         var notExist = document.querySelectorAll('#view_js_' + viewName).length == 0;
         if (notExist == false) {
-            console.error('VIEW [' + viewName + '] RESOURCE EXIST ...');
+            console.log('VIEW [' + viewName + '] RESOURCE EXIST ...');
             _VIEW_CURRENT = viewName;
             if (callback && typeof callback == 'function') callback();
             return;

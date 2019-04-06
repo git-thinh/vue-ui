@@ -135,6 +135,8 @@ Vue.component('left-sidebar-fancytree', {
             var _self = this;
             var node = info.node, data = node.data;
             if (data && data.path) {
+                _self.viewMainOpacity(0);
+
                 _self.treeNodeTimeStampClick = new Date().getTime();
 
                 console.log('TREE.activate ...');
@@ -143,7 +145,6 @@ Vue.component('left-sidebar-fancytree', {
                 //$('#' + _self.treeCategoryId).getOption()
                 _self.treeItem.fancytree("disable");
 
-                _self.viewMainOpacity(0);
 
                 _apiGo(data.path);
             }
