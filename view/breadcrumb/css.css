@@ -1,0 +1,17 @@
+﻿.component.breadcrumb {
+    padding: 0;
+    height: 21px;
+    border-radius: 0;
+    width: 100%;
+    display: inline-block;
+    margin: 0;
+    background-color: transparent;
+}
+
+    .component.breadcrumb .breadcrumb {
+        background-color: transparent;
+        /* background-color: blue; */
+        border-radius: 0;
+        padding: 0 1rem;
+        margin: 0;
+    }

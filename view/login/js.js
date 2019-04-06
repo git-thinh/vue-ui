@@ -22,7 +22,13 @@ var LOGIN_COM = Vue.component('login', {
 
             //console.log('????????????? ', this.objUserInfo.loggedIn);
             this.objUserInfo.loggedIn = true;
-            _ROUTER.push(this.$route.query.redirect);
+
+            if (this.$route.query && this.$route.query.redirect)
+                _ROUTER.push(this.$route.query.redirect);
+            else {
+                alert('OK');
+                _ROUTER.push('/dashboard');
+            }
         }
     }
 });

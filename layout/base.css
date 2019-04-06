@@ -25,19 +25,22 @@
     padding:0 7px;
 }
 
+#lay-breadcrumb { 
+}
+
 #lay-main {
     width: calc(100% - 199px);
 
     float: right;
     padding: 7px 0 0;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 111px);
     position: absolute;
     display: flex;
     flex-direction: column;
     flex: 1 auto;
     right: 0;
     bottom: 10px;
-    background-color: red;
+    /*background-color: red;*/
 }
 
 #lay-view {

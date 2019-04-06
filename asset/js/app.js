@@ -135,6 +135,7 @@ _MAIN = {
         console.log('SCREEN_MAIN: LOGIN_OK ...');
         _MAIN.vueRenderComponent('lay-top', 'toolbar');
         _MAIN.vueRenderComponent('lay-left-sidebar', 'left-sidebar-glyph');
+        _MAIN.vueRenderComponent('lay-breadcrumb', 'breadcrumb');
     },
     vueInit: function (callback) {
         _APP = new Vue({
