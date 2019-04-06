@@ -32,7 +32,6 @@ ul.fancytree-container >li >ul {
 	padding-left: 0;
 }
 
-
 .left-sidebar-glyph .fancytree-custom-icon svg {
     stroke: currentColor;
     stroke-width: 1px;
@@ -45,4 +44,11 @@ ul.fancytree-container >li >ul {
     font-size: 16px;
     margin: 0;
     color: #333;
+}
+
+.fancytree-plain span.fancytree-active span.fancytree-title, 
+.fancytree-plain span.fancytree-selected span.fancytree-title {
+    background-color: #cbe8f6 !important;
+	border: transparent !important;
+    border-radius: 3px !important;
 }

@@ -7,9 +7,29 @@
     background-color: #B2D5EE;
 }
 
+.lay-screen-login #lay-top,
+.lay-screen-login #lay-breadcrumb,
+.lay-screen-login #lay-left,
+.lay-screen-login #lay-right,
+.lay-screen-login #lay-bottom {
+    display: none;
+}
+
+.lay-screen-login #lay-main {
+    width: 100%;
+}
+
+#lay-left {
+    width:199px;
+    float:left;
+    padding:0 7px;
+}
+
 #lay-main {
-    padding: 0px 7px;
     width: calc(100% - 199px);
+
+    float: right;
+    padding: 7px 0 0;
     height: calc(100vh - 60px);
     position: absolute;
     display: flex;
@@ -24,4 +44,9 @@
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+#lay-message,
+#lay-view {
+    padding: 0 1rem;
 }

@@ -1,25 +1,27 @@
-﻿<div id="lay-top" v-show="objUserInfo.loggedIn"></div>
-<div id="lay-"></div>
-<div id="lay-body">
-    <div id="lay-left" v-show="objUserInfo.loggedIn" style="width:199px;float:left;padding:0 7px;">
-        <div id="lay-left-toolbar"></div>
-        <div id="lay-left-sidebar"></div>
-    </div>
-    <div id="lay-main" style="float:right;padding:0 7px;" v-bind:style="{ width: objUserInfo.loggedIn ? 'calc(100% - 199px)' : '100%' }">
-        <div id="lay-message">
-            <div :class="[objAlert[0].css]">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <span v-html="objAlert[0].text"></span>
+﻿<div v-bind:class="[objUserInfo.loggedIn ? 'lay-screen-user' : 'lay-screen-login']">
+    <div id="lay-top"></div>
+    <div id="lay-breadcrumb"></div>
+    <div id="lay-body">
+        <div id="lay-left">
+            <div id="lay-left-toolbar"></div>
+            <div id="lay-left-sidebar"></div>
+        </div>
+        <div id="lay-main">
+            <div id="lay-message">
+                <div v-bind:class="[objAlert[0].css]">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span v-html="objAlert[0].text"></span>
+                </div>
+            </div>
+            <div id="lay-view" v-bind:style="{ height: objAlert.length == 0 ? '100vh' : 'calc(100vh - 99px)' }">
+                <router-view></router-view>
             </div>
         </div>
-        <div id="lay-view" v-bind:style="{ height: objAlert.length == 0 ? '100vh' : 'calc(100vh - 99px)' }">
-            <router-view></router-view>
+        <div id="lay-right">
+            <div id="lay-right-toolbar"></div>
+            <div id="lay-right-sidebar"></div>
         </div>
     </div>
-    <div id="lay-right" v-show="objUserInfo.loggedIn">
-        <div id="lay-right-toolbar"></div>
-        <div id="lay-right-sidebar"></div>
-    </div>
+    <div id="lay-bottom"></div>
 </div>
-<div id="lay-bottom" v-show="objUserInfo.loggedIn"></div>
 <link href="layout/base.css" rel="stylesheet" />
