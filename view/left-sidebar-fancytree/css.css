@@ -32,7 +32,7 @@ ul.fancytree-container >li >ul {
 	padding-left: 0;
 }
 
-.left-sidebar-glyph .fancytree-custom-icon svg {
+.left-sidebar-fancytree .fancytree-custom-icon svg {
     stroke: currentColor;
     stroke-width: 1px;
     stroke-linecap: round;

@@ -1,24 +1,34 @@
-﻿var LEFT_SIDEBAR_GLYPH_CONFIG = {
+﻿var LEFT_SIDEBAR_FANCYTREE_CONFIG = {
     requiresAuth: false,
     noRouter: true
 };
 
-Vue.component('left-sidebar-glyph', {
+Vue.component('left-sidebar-fancytree', {
     mixins: [_MIXIN, _COMS],
     data: function () {
         var data = {
             treeCategoryId: '_' + new Date().getTime(),
-            _name: 'left-sidebar-glyph',
+            _name: 'left-sidebar-fancytree',
             key1: 1
         };
         return data;
     },
-    template: _apiGet('view/left-sidebar-glyph/index.html'),
+    template: _apiGet('view/left-sidebar-fancytree/index.html'),
+    computed: {
+        treeItem: function () {
+            var _self = this;
+            return $('#' + _self.treeCategoryId);
+        },
+        treeOption: function () {
+            var _self = this;
+            return $('#' + _self.treeCategoryId).getOption();
+        },
+    },
     mounted: function () {
         var _self = this;
         console.log('LEFT_SIDEBAR: mounted ...', this.objUserInfo);
 
-        $('#' + _self.treeCategoryId).fancytree({
+        _self.treeItem.fancytree({
             activeVisible: true, // Make sure, active nodes are visible (expanded)
             aria: true, // Enable WAI-ARIA support
             autoActivate: true, // Automatically activate a node when it is focused using keyboard
@@ -82,6 +92,11 @@ Vue.component('left-sidebar-glyph', {
                 var node = info.node, data = node.data;
                 if (data && data.path) {
                     console.log('TREE.activate: ', node);
+
+                    //var $allTrees = $(":ui-fancytree");
+                    //$('#' + _self.treeCategoryId).getOption()
+                    _self.treeItem.fancytree("disable");
+
                     _apiGo(data.path);
                 }
             }

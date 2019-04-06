@@ -134,7 +134,7 @@ _MAIN = {
     onLoginSuccess: function () {
         console.log('SCREEN_MAIN: LOGIN_OK ...');
         _MAIN.vueRenderComponent('lay-top', 'toolbar');
-        _MAIN.vueRenderComponent('lay-left-sidebar', 'left-sidebar-glyph');
+        _MAIN.vueRenderComponent('lay-left-sidebar', 'left-sidebar-fancytree');
         _MAIN.vueRenderComponent('lay-breadcrumb', 'breadcrumb');
     },
     vueInit: function (callback) {
