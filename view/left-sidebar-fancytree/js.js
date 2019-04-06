@@ -143,6 +143,8 @@ Vue.component('left-sidebar-fancytree', {
                 //$('#' + _self.treeCategoryId).getOption()
                 _self.treeItem.fancytree("disable");
 
+                _self.viewMainOpacity(0);
+
                 _apiGo(data.path);
             }
         }

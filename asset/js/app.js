@@ -56,7 +56,7 @@ $(function () {
 
                 setTimeout(function () {
                     console.error('SHOW VIEW ...');
-                    document.getElementById('lay-view').style.opacity = 1;
+                    _self.viewMainOpacity(1);
                 }, 500);
             }
 
@@ -74,6 +74,9 @@ $(function () {
             }
         },
         methods: {
+            viewMainOpacity: function (opacity) {
+                document.getElementById('lay-view').style.opacity = opacity;
+            },
             getViewConfig: function (viewName) {
                 if (viewName) {
                     var key = viewName.toLocaleUpperCase().split('-').join('_') + '_CONFIG',
@@ -102,9 +105,11 @@ $(function () {
         }
     });
     _ROUTER.afterEach((to, from) => {
-        if (to && to.matched.length > 0) {
-            console.error('HIDE VIEW ...');
-            document.getElementById('lay-view').style.opacity = 0;
+        if (to && to.matched.length > 0) {            
+            if (_APP) {
+                console.error('HIDE VIEW ...');
+                _APP.viewMainOpacity(0);
+            }
 
             var view = to.matched[0].path.substr(1);
             //console.log('ROUTER.afterEach: to = ', to);
