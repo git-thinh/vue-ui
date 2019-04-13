@@ -130,6 +130,28 @@ $(function () {
 });
 /////////////////////////////////////////////////////////////////////////////////
 
+// Rest of your worker code goes here.
+
+// In the past...: blob builder existed ...but now we use Blob...:
+//var blob = new Blob(["onmessage = function(e) { postMessage('msg from worker'); }"]);
+var jsWorker = ' var _date; onmessage = function (oEvent) { _date = oEvent.data; console.log("->WORKER: " + _date); setInterval(function () {  postMessage(_date + ": " + new Date().toString()); }, 1000); }; ';
+var blob = new Blob([jsWorker]);
+
+// Creating a new document.worker property containing all our "text/js-worker" scripts.
+document.worker = new Worker(window.URL.createObjectURL(blob));
+
+document.worker.onmessage = function(oEvent) {
+    console.log('->UI: ' + oEvent.data);
+};
+
+// Start the worker.
+window.onload = function () {
+    console.log('UI init worker ...');
+    document.worker.postMessage(new Date);
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+
 function _svg(className, addClass) {
     var id = className.replace(/ /g, "-"),
       cn = addClass ? " " + addClass : "",
