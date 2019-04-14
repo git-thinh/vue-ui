@@ -1,4 +1,75 @@
-﻿var _DATA = {
+﻿/*!
+ * classie.has( elem, 'my-class' ) -> true/false
+ * classie.add( elem, 'my-new-class' )
+ * classie.remove( elem, 'my-unwanted-class' )
+ * classie.toggle( elem, 'my-class' )
+ */
+(function (window) {
+    function classReg(className) {
+        return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+    }
+    var hasClass, addClass, removeClass;
+    if ('classList' in document.documentElement) {
+        hasClass = function (elem, c) {
+            return elem.classList.contains(c);
+        };
+        addClass = function (elem, c) {
+            elem.classList.add(c);
+        };
+        removeClass = function (elem, c) {
+            elem.classList.remove(c);
+        };
+    }
+    else {
+        hasClass = function (elem, c) {
+            return classReg(c).test(elem.className);
+        };
+        addClass = function (elem, c) {
+            if (!hasClass(elem, c)) {
+                elem.className = elem.className + ' ' + c;
+            }
+        };
+        removeClass = function (elem, c) {
+            elem.className = elem.className.replace(classReg(c), ' ');
+        };
+    }
+    function toggleClass(elem, c) {
+        var fn = hasClass(elem, c) ? removeClass : addClass;
+        fn(elem, c);
+    }
+    var classie = {
+        hasClass: hasClass,
+        addClass: addClass,
+        removeClass: removeClass,
+        toggleClass: toggleClass,
+        has: hasClass,
+        add: addClass,
+        remove: removeClass,
+        toggle: toggleClass
+    };
+    if (typeof define === 'function' && define.amd) {
+        define(classie);
+    } else if (typeof exports === 'object') {
+        module.exports = classie;
+    } else {
+        window.classie = classie;
+    }
+})(window);
+/////////////////////////////////////////////////////////////////////////////////
+/* _DATA */
+var _DATA = {
+    isMobi: false,
+    isTablet: false,
+    objApp: {
+        device: 'pc',
+        theme: 'default',
+        layout: 'base',
+        size: {
+            width: window.innerWidth || document.body.clientWidth,
+            height: window.innerHeight || document.body.clientHeight
+        },
+        orientation: 'portrait'
+    },
     objLang: {},
     objAlert: [{ text: '<strong>Success!</strong> Indicates a successful or positive action.', css: 'alert alert-success alert-dismissible' }],
     objUserInfo: {
@@ -6,6 +77,30 @@
         messages: []
     }
 };
+_DATA.objApp.orientation = _DATA.objApp.size.width > _DATA.objApp.size.height ? 'landscape' : 'portrait';
+classie.add(document.body, 'lay-' + _DATA.objApp.orientation);
+var size = Math.max(_DATA.objApp.size.width, _DATA.objApp.size.height);
+if (size <= 1024 && size >= 800) { _DATA.objApp.device = 'tablet'; _DATA.isTablet = true; } else if (size < 800) { _DATA.objApp.device = 'mobi'; _DATA.isMobi = true; };
+classie.add(document.body, 'lay-' + _DATA.objApp.device);
+/////////////////////////////////////////////////////////////////////////////////
+/* WINDOW EVENT */
+window.onorientationchange = function () {
+    console.log("WINDOW.orientation: " + screen.orientation.angle);
+    //if (Math.abs(window.orientation) === 90)
+    if (Math.abs(screen.orientation.angle) === 90) {
+        // Landscape
+        _DATA.objApp.orientation = 'landscape';
+        classie.add(document.body, 'lay-landscape');
+        classie.remove(document.body, 'lay-portrait');
+    } else {
+        // Portrait
+        _DATA.objApp.orientation = 'portrait';
+        classie.add(document.body, 'lay-portrait');
+        classie.remove(document.body, 'lay-landscape');
+    }
+};
+/////////////////////////////////////////////////////////////////////////////////
+/* VUE */
 var _MAIN, _ROUTER, _APP, _COMS, _MIXIN, _MIXIN_COMS, _DATA_SHARED = '', _PROPS = [], _ALLVUE = [],
     _VIEW_CURRENT, _VIEW_TIME_OUT = 500;
 for (var key in _DATA) { _PROPS.push(key); }
@@ -112,7 +207,7 @@ $(function () {
         }
     });
     _ROUTER.afterEach((to, from) => {
-        if (to && to.matched.length > 0) {            
+        if (to && to.matched.length > 0) {
             if (_APP) {
                 console.log('HIDE VIEW ...');
                 _APP.viewMainOpacity(0);
@@ -134,14 +229,18 @@ $(function () {
 
 // In the past...: blob builder existed ...but now we use Blob...:
 //var blob = new Blob(["onmessage = function(e) { postMessage('msg from worker'); }"]);
-var jsWorker = ' var _date; onmessage = function (oEvent) { _date = oEvent.data; console.log("->WORKER: " + _date); setInterval(function () {  postMessage(_date + ": " + new Date().toString()); }, 1000); }; ';
-var blob = new Blob([jsWorker]);
+var jsWorker = ' var _date; onmessage = function (oEvent) { _date = oEvent.data; console.log("|||->WORKER: " + _date); setInterval(function () {  postMessage(_date + ": " + new Date().toString()); }, 1000); }; ';
+var blob = new Blob([jsWorker], { type: 'application/javascript' });
 
 // Creating a new document.worker property containing all our "text/js-worker" scripts.
 document.worker = new Worker(window.URL.createObjectURL(blob));
 
-document.worker.onmessage = function(oEvent) {
-    console.log('->UI: ' + oEvent.data);
+document.worker.onmessage = function (oEvent) {
+    //console.log('->UI: ' + oEvent.data);
+};
+document.worker.onerror = function (oEvent) {
+    //console.log('->UI: ' + oEvent.data);
+    throw oEvent.data;
 };
 
 // Start the worker.
@@ -149,6 +248,11 @@ window.onload = function () {
     console.log('UI init worker ...');
     document.worker.postMessage(new Date);
 };
+
+function fn2workerURL(fn) {
+    var blob = new Blob(['(' + fn.toString() + ')()'], { type: 'application/javascript' });
+    return URL.createObjectURL(blob);
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -182,7 +286,7 @@ _MAIN = {
 
             _MAIN.viewLoad('login', function () {
                 _MAIN.viewLoad('dashboard', function () {
-                    _MAIN.vueInit(function () {
+                    _MAIN.vueCreateNewInstaceOnMain(function () {
                         _ROUTER.push('/dashboard');
                     });
                 });
@@ -190,7 +294,7 @@ _MAIN = {
         });
     },
     layoutInit: function (callback) {
-        var layName = 'base', html = _apiGet('layout/' + layName + '.html');
+        var layName = _DATA.objApp.layout, html = _apiGet('layout/' + layName + '.html');
         html = html.split('_DATA_SHARED').join(_DATA_SHARED);
 
         var el = document.getElementById('lay-app');
@@ -202,12 +306,24 @@ _MAIN = {
     onLogout: function () { },
     onLoginSuccess: function () {
         console.log('SCREEN_MAIN: LOGIN_OK ...');
-        _MAIN.vueCreateNewInstaceOnArea('lay-top', 'toolbar');
-        _MAIN.vueCreateNewInstaceOnArea('lay-breadcrumb', 'breadcrumb');
-        //_MAIN.vueCreateNewInstaceOnArea('lay-left-sidebar', 'left-sidebar-list-simple');
-        _MAIN.vueCreateNewInstaceOnArea('lay-left-sidebar', 'left-sidebar-fancytree');
+        switch (_DATA.objApp.device) {
+            case 'mobi':
+                //_MAIN.vueCreateNewInstaceOnArea('lay-top', 'toolbar');
+                _MAIN.vueCreateNewInstaceOnArea('lay-breadcrumb', 'breadcrumb');
+                break;
+            case 'tablet':
+                _MAIN.vueCreateNewInstaceOnArea('lay-top', 'toolbar');
+                _MAIN.vueCreateNewInstaceOnArea('lay-breadcrumb', 'breadcrumb');
+                break;
+            default:
+                _MAIN.vueCreateNewInstaceOnArea('lay-top', 'toolbar');
+                _MAIN.vueCreateNewInstaceOnArea('lay-breadcrumb', 'breadcrumb');
+                //_MAIN.vueCreateNewInstaceOnArea('lay-left-sidebar', 'left-sidebar-list-simple');
+                _MAIN.vueCreateNewInstaceOnArea('lay-left-sidebar', 'left-sidebar-fancytree');
+                break;
+        }
     },
-    vueInit: function (callback) {
+    vueCreateNewInstaceOnMain: function (callback) {
         _APP = new Vue({
             mixins: [_MIXIN],
             data: function () { return _DATA; },
@@ -261,7 +377,7 @@ _MAIN = {
                 mixins: [_MIXIN],
                 data: function () { return _DATA; },
                 template: '<' + componentName + ' ' + _DATA_SHARED + '></' + componentName + '>',
-                //el: '#' + id
+                //el: '#' + id,
             });
             objVue.$mount(div);
 

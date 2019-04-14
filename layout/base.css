@@ -20,17 +20,16 @@
 }
 
 #lay-left {
-    width:199px;
-    float:left;
-    padding:0 7px;
+    width: 199px;
+    float: left;
+    padding: 0 7px;
 }
 
-#lay-breadcrumb { 
+#lay-breadcrumb {
 }
 
 #lay-main {
     width: calc(100% - 199px);
-
     float: right;
     padding: 7px 0 0;
     height: calc(100vh - 85px);
@@ -52,4 +51,16 @@
 #lay-message,
 #lay-view {
     padding: 0 1rem;
+}
+/*///////////////////////////////////////*/
+/*--MOBI--*/
+body.lay-mobi #lay-top,
+body.lay-mobi #lay-left,
+body.lay-mobi #lay-right {
+    display: none;
+}
+
+body.lay-mobi #lay-main {
+    width: 100%;
+    height: calc(100vh - 44px);
 }
