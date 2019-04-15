@@ -19,6 +19,10 @@
     background-color: transparent !important;
 }
 
+.component {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
 body {
     padding: 0px;
@@ -85,4 +89,8 @@ body.lay-mobi #lay-right {
 body.lay-mobi #lay-main {
     width: 100%;
     height: calc(100vh - 44px);
+}
+
+body.lay-mobi .lay-screen-login #lay-main {
+    height: calc(100vh - 7px);
 }
