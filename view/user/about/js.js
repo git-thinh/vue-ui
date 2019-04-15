@@ -1,5 +1,6 @@
 ﻿var ABOUT_CONFIG = {
-    requiresAuth: false
+    requiresAuth: false,
+    path: '//'
 };
 
 var ABOUT_COM = {

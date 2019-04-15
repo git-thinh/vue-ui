@@ -1,5 +1,6 @@
 ﻿var DASHBOARD_CONFIG = {
-    requiresAuth: true
+    requiresAuth: true,
+    path: '//'
 };
 
 var DASHBOARD_COM = {

@@ -1,5 +1,6 @@
 ﻿var ALERT_CONFIG = {
-    requiresAuth: false
+    requiresAuth: false,
+    path: '//'
 };
 
 var ALERT_COM = Vue.component('alert', {

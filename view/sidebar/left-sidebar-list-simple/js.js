@@ -1,6 +1,7 @@
 ﻿var LEFT_SIDEBAR_LIST_SIMPLE_CONFIG = {
     requiresAuth: false,
-    noRouter: true
+    noRouter: true,
+    path: '//'
 };
 
 Vue.component('left-sidebar-list-simple', {

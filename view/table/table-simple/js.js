@@ -1,5 +1,6 @@
 ﻿var TABLE_SIMPLE_CONFIG = {
-    requiresAuth: true
+    requiresAuth: true,
+    path: '//'
 };
 
 var TABLE_SIMPLE_COM = {

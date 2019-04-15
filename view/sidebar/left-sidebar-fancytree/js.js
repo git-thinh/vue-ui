@@ -1,6 +1,7 @@
 ﻿var LEFT_SIDEBAR_FANCYTREE_CONFIG = {
     requiresAuth: false,
-    noRouter: true
+    noRouter: true,
+    path: '//'
 };
 
 Vue.component('left-sidebar-fancytree', {

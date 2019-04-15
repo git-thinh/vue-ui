@@ -1,5 +1,6 @@
 ﻿var BREADCRUMB_CONFIG = {
-    requiresAuth: false
+    requiresAuth: false,
+    path: '/breadcrumb/breadcrumb'
 };
 
 var BREADCRUMB_COM = Vue.component('breadcrumb', {

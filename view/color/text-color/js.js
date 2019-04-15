@@ -1,5 +1,6 @@
 ﻿var TEXT_COLOR_CONFIG = {
-    requiresAuth: false
+    requiresAuth: false,
+    path: '//'
 };
 
 var TEXT_COLOR_COM = Vue.component('text-color', {

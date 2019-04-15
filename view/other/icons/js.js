@@ -1,5 +1,6 @@
 ﻿var ICONS_CONFIG = {
-    requiresAuth: false
+    requiresAuth: false,
+    path: '//'
 };
 
 var ICONS_COM = {

@@ -1,5 +1,6 @@
 ﻿var LOGIN_CONFIG = {
-    requiresAuth: false
+    requiresAuth: false,
+    path: '//'
 };
 
 var LOGIN_COM = Vue.component('login', {

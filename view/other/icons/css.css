@@ -1,0 +1,76 @@
+﻿
+.component.icons {
+}
+
+    .component.icons .i {
+        stroke: currentColor;
+        stroke-width: 2px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        width: 1em;
+        height: 1em;
+        margin: 0.4em;
+    }
+
+    .component.icons svg, .component.icons svg symbol {
+        overflow: visible;
+    }
+
+    .component.icons div {
+        margin: 1em;
+    }
+
+    .component.icons .i-large div {
+        font-size: 4em;
+        margin: 0;
+    }
+
+    .component.icons .i-medium div {
+        font-size: 2em;
+        margin: 0;
+    }
+
+    .component.icons .i-small div {
+        font-size: 1.5em;
+        margin: 0;
+    }
+
+    .component.icons .i-large,
+    .component.icons .i-medium,
+    .component.icons .i-small {
+        max-width: 50em;
+        margin: 0 auto 2em;
+    }
+
+    .component.icons ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        overflow: hidden;
+    }
+
+        .component.icons ul li {
+            width: 139px;
+            height: 79px;
+            float: left;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+
+            .component.icons ul li div {
+                padding: 0;
+                margin: 0;
+            }
+
+            
+                .component.icons ul li div span {
+                    line-height: 13px;
+                    font-size: 12px;
+                }
+
+                .component.icons ul li i {
+                    color:#333;
+                }

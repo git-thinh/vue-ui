@@ -1,6 +1,7 @@
 ﻿var TOOLBAR_CONFIG = {
     requiresAuth: false,
-    noRouter: true
+    noRouter: true,
+    path: '//'
 };
 
 Vue.component('toolbar', {
