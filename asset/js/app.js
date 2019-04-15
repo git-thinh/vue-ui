@@ -8,16 +8,18 @@
     function classReg(className) {
         return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
     }
-    var hasClass, addClass, removeClass;
+    var classie, hasClass, addClass, removeClass;
     if ('classList' in document.documentElement) {
         hasClass = function (elem, c) {
             return elem.classList.contains(c);
         };
         addClass = function (elem, c) {
             elem.classList.add(c);
+            return classie;
         };
         removeClass = function (elem, c) {
             elem.classList.remove(c);
+            return classie;
         };
     }
     else {
@@ -28,16 +30,19 @@
             if (!hasClass(elem, c)) {
                 elem.className = elem.className + ' ' + c;
             }
+            return classie;
         };
         removeClass = function (elem, c) {
             elem.className = elem.className.replace(classReg(c), ' ');
+            return classie;
         };
     }
     function toggleClass(elem, c) {
         var fn = hasClass(elem, c) ? removeClass : addClass;
         fn(elem, c);
+        return classie;
     }
-    var classie = {
+    classie = {
         hasClass: hasClass,
         addClass: addClass,
         removeClass: removeClass,
@@ -90,13 +95,11 @@ window.onorientationchange = function () {
     if (Math.abs(screen.orientation.angle) === 90) {
         // Landscape
         _DATA.objApp.orientation = 'landscape';
-        classie.add(document.body, 'lay-landscape');
-        classie.remove(document.body, 'lay-portrait');
+        classie.add(document.body, 'lay-landscape').remove(document.body, 'lay-portrait');
     } else {
         // Portrait
         _DATA.objApp.orientation = 'portrait';
-        classie.add(document.body, 'lay-portrait');
-        classie.remove(document.body, 'lay-landscape');
+        classie.add(document.body, 'lay-portrait').remove(document.body, 'lay-landscape');
     }
 };
 /////////////////////////////////////////////////////////////////////////////////
