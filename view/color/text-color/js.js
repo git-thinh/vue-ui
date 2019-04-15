@@ -1,6 +1,6 @@
 ﻿var TEXT_COLOR_CONFIG = {
     requiresAuth: false,
-    path: '//'
+    path: '/color/text-color'
 };
 
 var TEXT_COLOR_COM = Vue.component('text-color', {
@@ -11,5 +11,5 @@ var TEXT_COLOR_COM = Vue.component('text-color', {
         };
         return data;
     },
-    template: _apiGet('view/text-color/index.html')
+    template: _apiGet('view/color/text-color/index.html')
 });

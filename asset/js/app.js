@@ -60,6 +60,13 @@
         window.classie = classie;
     }
 })(window);
+function _apiGet(url) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, false);  // `false` makes the request synchronous
+    request.send(null);
+    if (request.status === 200) return request.responseText;
+    return '';
+}
 /////////////////////////////////////////////////////////////////////////////////
 /* _DATA */
 var _DATA = {
@@ -80,13 +87,15 @@ var _DATA = {
     objUserInfo: {
         loggedIn: false,
         messages: []
-    }
+    },
+    objComponent: {}
 };
 _DATA.objApp.orientation = _DATA.objApp.size.width > _DATA.objApp.size.height ? 'landscape' : 'portrait';
 classie.add(document.body, 'lay-' + _DATA.objApp.orientation);
 var size = Math.max(_DATA.objApp.size.width, _DATA.objApp.size.height);
 if (size <= 1024 && size >= 800) { _DATA.objApp.device = 'tablet'; _DATA.isTablet = true; } else if (size < 800) { _DATA.objApp.device = 'mobi'; _DATA.isMobi = true; };
 classie.add(document.body, 'lay-' + _DATA.objApp.device);
+_DATA.objComponent = JSON.parse(_apiGet('data/view.json'));
 /////////////////////////////////////////////////////////////////////////////////
 /* WINDOW EVENT */
 window.onorientationchange = function () {
@@ -267,13 +276,7 @@ function _svg(className, addClass) {
 }
 
 function _apiGo(path) { _MAIN.go(path); }
-function _apiGet(url) {
-    var request = new XMLHttpRequest();
-    request.open('GET', url, false);  // `false` makes the request synchronous
-    request.send(null);
-    if (request.status === 200) return request.responseText;
-    return '';
-}
+
 
 _MAIN = {
     init: function () {
@@ -391,12 +394,24 @@ _MAIN = {
         return null;
     },
     viewLoad: function (viewName, callback) {
-        //console.log('VIEW_LOAD ...');
+        //var arrComponents = _.reduce(_DATA.objComponent, function (result, value, key) {
+        //    value.forEach(function (it) { result.push(it); });
+        //    return result;
+        //}, []);
+        //var exist = arrComponents.some(function (it) { return it == viewName; }); 
+        var group = _.findKey(_DATA.objComponent, function (o) { return o.some(function (it) { return it == viewName }); });
+        if (group == null) {
+            console.log('----> VIEW [' + viewName + '] RESOURCE NOT EXIST !!!!!!!!!!!');
+            return;
+        }
 
-        var file = 'view/' + viewName + '/css.css';
+        var sub_path = group + '/' + viewName;
+        var file = 'view/' + sub_path + '/css.css';
         var head = document.getElementsByTagName("head")[0];
 
         var notExist = document.querySelectorAll('#view_js_' + viewName).length == 0;
+        console.log('VIEW_LOAD: ', notExist);
+
         if (notExist == false) {
             console.log('VIEW [' + viewName + '] RESOURCE EXIST ...');
             _VIEW_CURRENT = viewName;
@@ -410,7 +425,7 @@ _MAIN = {
         link.href = file;
         head.appendChild(link);
 
-        file = 'view/' + viewName + '/js.js';
+        file = 'view/' + sub_path + '/js.js';
         var script = document.createElement('script');
         script.setAttribute('id', 'view_js_' + viewName);
         script.src = file;
@@ -426,17 +441,19 @@ _MAIN = {
 
             if (config) {
                 config.name = key;
+                var path = config.path;
 
-                console.log('VIEW_LOAD: ', key, ' -> ', key);
+                console.log('VIEW_LOAD: ', key, ' -> ', path);
                 //console.log('VIEW_LOAD: ', key, ' -> com = ', com);
+                 
 
                 if (config.noRouter != true) {
                     config.noRouter = false;
                     if (com) {
                         if (config.requiresAuth == true) {
-                            _ROUTER.addRoutes([{ path: '/' + key, component: com, meta: { requiresAuth: true }, props: _DATA }]);
+                            _ROUTER.addRoutes([{ path: path, component: com, meta: { requiresAuth: true }, props: _DATA }]);
                         } else {
-                            _ROUTER.addRoutes([{ path: '/' + key, component: com, props: _DATA }]);
+                            _ROUTER.addRoutes([{ path: path, component: com, props: _DATA }]);
                         }
                     }
                 } else {

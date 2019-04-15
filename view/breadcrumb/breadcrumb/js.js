@@ -11,5 +11,5 @@ var BREADCRUMB_COM = Vue.component('breadcrumb', {
         };
         return data;
     },
-    template: _apiGet('view/breadcrumb/index.html')
+    template: _apiGet('view/breadcrumb/breadcrumb/index.html')
 });

@@ -1,6 +1,6 @@
 ﻿var ALERT_CONFIG = {
     requiresAuth: false,
-    path: '//'
+    path: '/dialog/alert'
 };
 
 var ALERT_COM = Vue.component('alert', {
@@ -11,5 +11,5 @@ var ALERT_COM = Vue.component('alert', {
         };
         return data;
     },
-    template: _apiGet('view/alert/index.html')
+    template: _apiGet('view/dialog/alert/index.html')
 });

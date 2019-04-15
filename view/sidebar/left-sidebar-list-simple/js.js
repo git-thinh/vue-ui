@@ -1,7 +1,7 @@
 ﻿var LEFT_SIDEBAR_LIST_SIMPLE_CONFIG = {
     requiresAuth: false,
     noRouter: true,
-    path: '//'
+    path: '/sidebar/left-sidebar-list-simple'
 };
 
 Vue.component('left-sidebar-list-simple', {
@@ -14,5 +14,5 @@ Vue.component('left-sidebar-list-simple', {
         };
         return data;
     },
-    template: _apiGet('view/left-sidebar-list-simple/index.html')
+    template: _apiGet('view/sidebar/left-sidebar-list-simple/index.html')
 });

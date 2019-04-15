@@ -1,6 +1,6 @@
 ﻿var BACKGROUND_COLOR_CONFIG = {
     requiresAuth: false,
-    path: '//'
+    path: '/color/background-color'
 };
 
 var BACKGROUND_COLOR_COM = Vue.component('background-color', {
@@ -11,5 +11,5 @@ var BACKGROUND_COLOR_COM = Vue.component('background-color', {
         };
         return data;
     },
-    template: _apiGet('view/background-color/index.html')
+    template: _apiGet('view/color/background-color/index.html')
 });

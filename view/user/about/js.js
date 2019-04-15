@@ -1,6 +1,6 @@
 ﻿var ABOUT_CONFIG = {
     requiresAuth: false,
-    path: '//'
+    path: '/user/about'
 };
 
 var ABOUT_COM = {

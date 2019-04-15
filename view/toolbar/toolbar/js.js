@@ -1,7 +1,7 @@
 ﻿var TOOLBAR_CONFIG = {
     requiresAuth: false,
     noRouter: true,
-    path: '//'
+    path: '/toolbar/toolbar'
 };
 
 Vue.component('toolbar', {
@@ -14,7 +14,7 @@ Vue.component('toolbar', {
         };
         return data;
     },
-    template: _apiGet('view/toolbar/index.html'),
+    template: _apiGet('view/toolbar/toolbar/index.html'),
     mounted: function () {
         var _self = this;
         console.log('toolbar: mounted ...', this.objUserInfo);         

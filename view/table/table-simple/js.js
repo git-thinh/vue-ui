@@ -1,6 +1,6 @@
 ﻿var TABLE_SIMPLE_CONFIG = {
     requiresAuth: true,
-    path: '//'
+    path: '/table/table-simple'
 };
 
 var TABLE_SIMPLE_COM = {
@@ -12,5 +12,5 @@ var TABLE_SIMPLE_COM = {
         };
         return data;
     },
-    template: _apiGet('view/table-simple/index.html') 
+    template: _apiGet('view/table/table-simple/index.html') 
 };

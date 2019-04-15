@@ -1,6 +1,6 @@
 ﻿var ICONS_CONFIG = {
     requiresAuth: false,
-    path: '//'
+    path: '/other/icons'
 };
 
 var ICONS_COM = {
@@ -11,5 +11,5 @@ var ICONS_COM = {
         };
         return data;
     },
-    template: _apiGet('view/icons/index.html')
+    template: _apiGet('view/other/icons/index.html')
 };

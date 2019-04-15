@@ -1,7 +1,7 @@
 ﻿var TOOLBAR_LEFT_CONFIG = {
     requiresAuth: false,
     noRouter: true,
-    path: '//'
+    path: '/sidebar/toolbar-left'
 };
 
 Vue.component('toolbar-left', {
@@ -14,7 +14,7 @@ Vue.component('toolbar-left', {
         };
         return data;
     },
-    template: _apiGet('view/toolbar-left/index.html'),
+    template: _apiGet('view/sidebar/toolbar-left/index.html'),
     mounted: function () {
         var _self = this;
         console.log('toolbar-left: mounted ...', this.objUserInfo);

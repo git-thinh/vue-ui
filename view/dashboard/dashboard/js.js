@@ -1,6 +1,6 @@
 ﻿var DASHBOARD_CONFIG = {
     requiresAuth: true,
-    path: '//'
+    path: '/dashboard/dashboard'
 };
 
 var DASHBOARD_COM = {
@@ -12,6 +12,6 @@ var DASHBOARD_COM = {
         };
         return data;
     },
-    template: _apiGet('view/dashboard/index.html')
+    template: _apiGet('view/dashboard/dashboard/index.html')
     //template: '<h1>Dashboard</h1>'
 };
