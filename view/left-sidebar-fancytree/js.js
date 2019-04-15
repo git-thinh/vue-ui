@@ -89,9 +89,9 @@ Vue.component('left-sidebar-fancytree', {
                     return _self.treeOnDrawIcons(event, data);
                 },
                 //source: { url: "/json/ajax-tree-products.json" },
-                source: { url: "/data/category.json", cache: false },
+                source: { url: "data/category.json", cache: false },
                 lazyLoad: function (event, data) {
-                    data.result = { url: "/json/ajax-sub2.json" };
+                    data.result = { url: "json/ajax-sub2.json" };
                 },
                 activate: function (event, info) {
                     _self.treeOnClick(event, info);
