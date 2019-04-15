@@ -213,7 +213,7 @@ $(function () {
     _ROUTER = new VueRouter();
     _ROUTER.beforeEach((to, from, next) => {
         if (to.matched.some(record => record.meta.requiresAuth) && !_DATA.objUserInfo.loggedIn) {
-            next({ path: '/login', query: { redirect: to.fullPath } });
+            next({ path: '/user/login', query: { redirect: to.fullPath } });
         } else {
             next();
         }
@@ -293,7 +293,7 @@ _MAIN = {
             _MAIN.viewLoad('login', function () {
                 _MAIN.viewLoad('dashboard', function () {
                     _MAIN.vueCreateNewInstaceOnMain(function () {
-                        _ROUTER.push('/dashboard');
+                        _ROUTER.push('/dashboard/dashboard');
                     });
                 });
             });
