@@ -69,6 +69,7 @@ function _apiGet(url) {
 }
 /////////////////////////////////////////////////////////////////////////////////
 /* _DATA */
+var _PATH_LOGIN = '/user/login';
 var _DATA = {
     isMobi: false,
     isTablet: false,
@@ -80,7 +81,8 @@ var _DATA = {
             width: window.innerWidth || document.body.clientWidth,
             height: window.innerHeight || document.body.clientHeight
         },
-        orientation: 'portrait'
+        orientation: 'portrait',
+        view: {}
     },
     objLang: {},
     objAlert: [{ text: '<strong>Success!</strong> Indicates a successful or positive action.', css: 'alert alert-success alert-dismissible' }],
@@ -95,7 +97,9 @@ classie.add(document.body, 'lay-' + _DATA.objApp.orientation);
 var size = Math.max(_DATA.objApp.size.width, _DATA.objApp.size.height);
 if (size <= 1024 && size >= 800) { _DATA.objApp.device = 'tablet'; _DATA.isTablet = true; } else if (size < 800) { _DATA.objApp.device = 'mobi'; _DATA.isMobi = true; };
 classie.add(document.body, 'lay-' + _DATA.objApp.device);
-_DATA.objComponent = JSON.parse(_apiGet('data/view.json'));
+_DATA.objApp.view = JSON.parse(_apiGet('data/view-default.json'));
+_DATA.objComponent = JSON.parse(_apiGet('data/view-list.json'));
+if (_DATA.objApp.view[location.port] != null && _DATA.objApp.view[location.port].login != null) _PATH_LOGIN = _DATA.objApp.view[location.port].login;
 /////////////////////////////////////////////////////////////////////////////////
 /* WINDOW EVENT */
 window.onorientationchange = function () {
@@ -213,7 +217,7 @@ $(function () {
     _ROUTER = new VueRouter();
     _ROUTER.beforeEach((to, from, next) => {
         if (to.matched.some(record => record.meta.requiresAuth) && !_DATA.objUserInfo.loggedIn) {
-            next({ path: '/user/login', query: { redirect: to.fullPath } });
+            next({ path: _PATH_LOGIN, query: { redirect: to.fullPath } });
         } else {
             next();
         }
@@ -394,6 +398,7 @@ _MAIN = {
         return null;
     },
     viewLoad: function (viewName, callback) {
+
         //var arrComponents = _.reduce(_DATA.objComponent, function (result, value, key) {
         //    value.forEach(function (it) { result.push(it); });
         //    return result;
@@ -445,7 +450,7 @@ _MAIN = {
 
                 console.log('VIEW_LOAD: ', key, ' -> ', path);
                 //console.log('VIEW_LOAD: ', key, ' -> com = ', com);
-                 
+
 
                 if (config.noRouter != true) {
                     config.noRouter = false;
@@ -483,8 +488,14 @@ _MAIN = {
         });
     },
     go: function (path) {
+        var viewName;
         var a = path.split('/');
-        var viewName = a[0].length == 0 ? a[1] : a[0];
+
+        if (a.length > 2) {
+            console.log('=> viewName = ' + viewName + ' -> ' + a[a.length - 1]);
+            viewName = a[a.length - 1];
+        }
+
         _MAIN.viewLoad(viewName, function () {
             //_MAIN.viewGo(viewName);
             _ROUTER.push(path);

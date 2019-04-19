@@ -8,22 +8,22 @@
       {
         "title": "Icon",
         "type": "compo",
-        "path": "/icons"
+        "path": "/other/icons"
       },
       {
         "title": "Alert",
         "type": "compo",
-        "path": "/alert"
+        "path": "/dialog/alert"
       },
       {
         "title": "Text color",
         "type": "compo",
-        "path": "/text-color"
+        "path": "/color/text-color"
       },
       {
         "title": "Background color",
         "type": "compo",
-        "path": "/background-color"
+        "path": "/color/background-color"
       },
       {
         "title": "Tables",
@@ -33,7 +33,7 @@
           {
             "title": "Table simple",
             "type": "compo",
-            "path": "/table-simple"
+            "path": "/table/table-simple"
           }
         ]
       },
@@ -45,17 +45,17 @@
           {
             "title": "dashboard",
             "type": "compo",
-            "path": "/dashboard"
+            "path": "/dashboard/dashboard"
           },
           {
             "title": "About",
             "type": "compo",
-            "path": "/about"
+            "path": "/user/about"
           },
           {
             "title": "Login",
             "type": "compo",
-            "path": "/login"
+            "path": "/user/login"
           }
         ]
       }

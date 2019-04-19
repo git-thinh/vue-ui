@@ -7,5 +7,6 @@
   "sidebar": [ "left-sidebar-fancytree", "left-sidebar-list-simple", "toolbar-left" ],
   "table": [ "table-simple" ],
   "toolbar": [ "toolbar" ],
-  "user": [ "about", "login" ]
+  "user": [ "about", "login" ],
+  "upload": [ "upload-ws" ]
 }

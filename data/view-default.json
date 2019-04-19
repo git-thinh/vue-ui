@@ -1,0 +1,9 @@
+﻿{
+  "default": {
+    "login": "login",
+    "dashboard": "dashboard" 
+  },
+  "9001": {
+    "login": "upload-ws"
+  }
+}

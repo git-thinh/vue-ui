@@ -140,7 +140,7 @@ Vue.component('left-sidebar-fancytree', {
 
                 _self.treeNodeTimeStampClick = new Date().getTime();
 
-                console.log('TREE.activate ...');
+                console.log('TREE.activate ...',data);
 
                 //var $allTrees = $(":ui-fancytree");
                 //$('#' + _self.treeCategoryId).getOption()
