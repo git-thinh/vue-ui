@@ -1,9 +1,14 @@
 ﻿{
   "default": {
-    "login": "login",
-    "dashboard": "dashboard" 
+    "main": "/dashboard/dashboard" 
   },
   "9001": {
-    "login": "upload-ws"
+    "main": "/log/log-test-ws"
+  },
+  "9002": {
+    "main": "/export/export-test-ws"
+  },
+  "9003": {
+    "main": "/upload/upload-test-ws"
   }
 }

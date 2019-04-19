@@ -8,5 +8,7 @@
   "table": [ "table-simple" ],
   "toolbar": [ "toolbar" ],
   "user": [ "about", "login" ],
-  "upload": [ "upload-ws" ]
+  "upload": [ "upload-test-ws" ],
+  "log": [ "log-test-ws" ],
+  "export": [ "export-test-ws" ]
 }

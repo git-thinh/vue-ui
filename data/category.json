@@ -16,6 +16,21 @@
         "path": "/dialog/alert"
       },
       {
+        "title": "log",
+        "type": "log",
+        "path": "/log/log-test-ws"
+      },
+      {
+        "title": "upload",
+        "type": "upload",
+        "path": "/upload/upload-test-ws"
+      },
+      {
+        "title": "export",
+        "type": "export",
+        "path": "/export/export-test-ws"
+      },
+      {
         "title": "Text color",
         "type": "compo",
         "path": "/color/text-color"

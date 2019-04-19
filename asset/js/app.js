@@ -69,7 +69,7 @@ function _apiGet(url) {
 }
 /////////////////////////////////////////////////////////////////////////////////
 /* _DATA */
-var _PATH_LOGIN = '/user/login';
+var _PATH_LOGIN = '/user/login', _PATH_MAIN = '/dashboard/dashboard';
 var _DATA = {
     isMobi: false,
     isTablet: false,
@@ -100,6 +100,7 @@ classie.add(document.body, 'lay-' + _DATA.objApp.device);
 _DATA.objApp.view = JSON.parse(_apiGet('data/view-default.json'));
 _DATA.objComponent = JSON.parse(_apiGet('data/view-list.json'));
 if (_DATA.objApp.view[location.port] != null && _DATA.objApp.view[location.port].login != null) _PATH_LOGIN = _DATA.objApp.view[location.port].login;
+if (_DATA.objApp.view[location.port] != null && _DATA.objApp.view[location.port].main != null) _PATH_MAIN = _DATA.objApp.view[location.port].main;
 /////////////////////////////////////////////////////////////////////////////////
 /* WINDOW EVENT */
 window.onorientationchange = function () {
@@ -294,10 +295,11 @@ _MAIN = {
 
         _MAIN.layoutInit(function () {
 
-            _MAIN.viewLoad('login', function () {
-                _MAIN.viewLoad('dashboard', function () {
+            _MAIN.viewLoad(_PATH_LOGIN, function () {
+                _MAIN.viewLoad(_PATH_MAIN, function () {
                     _MAIN.vueCreateNewInstaceOnMain(function () {
-                        _ROUTER.push('/dashboard/dashboard');
+                        //_ROUTER.push('/dashboard/dashboard');
+                        _apiGo(_PATH_MAIN);
                     });
                 });
             });
@@ -398,6 +400,11 @@ _MAIN = {
         return null;
     },
     viewLoad: function (viewName, callback) {
+        var a = viewName.split('/');
+        if (a.length > 2) {
+            console.log('viewLoad() => viewName = ' + viewName + ' -> ' + a[a.length - 1]);
+            viewName = a[a.length - 1];
+        }
 
         //var arrComponents = _.reduce(_DATA.objComponent, function (result, value, key) {
         //    value.forEach(function (it) { result.push(it); });
@@ -490,9 +497,8 @@ _MAIN = {
     go: function (path) {
         var viewName;
         var a = path.split('/');
-
         if (a.length > 2) {
-            console.log('=> viewName = ' + viewName + ' -> ' + a[a.length - 1]);
+            console.log('go() => viewName = ' + viewName + ' -> ' + a[a.length - 1]);
             viewName = a[a.length - 1];
         }
 
