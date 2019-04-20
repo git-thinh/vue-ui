@@ -498,7 +498,7 @@ _MAIN = {
         var viewName;
         var a = path.split('/');
         if (a.length > 2) {
-            console.log('go() => viewName = ' + viewName + ' -> ' + a[a.length - 1]);
+            console.log('go() => viewName = ' + path + ' -> ' + a[a.length - 1]);
             viewName = a[a.length - 1];
         }
 

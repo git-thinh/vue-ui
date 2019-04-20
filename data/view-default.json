@@ -1,6 +1,6 @@
 ﻿{
-  "default": {
-    "main": "/dashboard/dashboard" 
+  "": {
+    "main": "/element/kit-bootstrap" 
   },
   "9001": {
     "main": "/log/log-test-ws"
