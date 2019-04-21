@@ -6,62 +6,253 @@
     "folder": true,
     "children": [
       {
-        "title": "Icon",
-        "type": "compo",
-        "path": "/other/icons"
+        "title": "Breadcrumb",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "breadcrumb",
+            "type": "compo",
+            "path": "/breadcrumb/breadcrumb"
+          }
+        ]
       },
       {
-        "title": "Alert",
-        "type": "compo",
-        "path": "/dialog/alert"
+        "title": "Dashboard",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "dashboard",
+            "type": "compo",
+            "path": "/dashboard/dashboard"
+          }
+        ]
       },
       {
-        "title": "log",
-        "type": "log",
-        "path": "/log/log-test-ws"
+        "title": "Dialog",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "Alert",
+            "type": "compo",
+            "path": "/dialog/alert"
+          },
+          {
+            "title": "Modal",
+            "type": "compo",
+            "path": "/dialog/modal"
+          }
+        ]
       },
       {
-        "title": "upload",
-        "type": "upload",
-        "path": "/upload/upload-test-ws"
+        "title": "Elements",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "Kit Bootstrap",
+            "type": "compo",
+            "path": "/element/kit-bootstrap"
+          },
+          {
+            "title": "Text color",
+            "type": "compo",
+            "path": "/element/text-color"
+          },
+          {
+            "title": "Background color",
+            "type": "compo",
+            "path": "/element/background-color"
+          },
+          {
+            "title": "Border",
+            "type": "compo",
+            "path": "/element/border"
+          },
+          {
+            "title": "Padding, Margin",
+            "type": "compo",
+            "path": "/element/padding-margin"
+          },
+          {
+            "title": "Grid Panel",
+            "type": "compo",
+            "path": "/element/grid-panel"
+          },
+          {
+            "title": "Icon",
+            "type": "compo",
+            "path": "/element/icons"
+          },
+          {
+            "title": "Input text",
+            "type": "compo",
+            "path": "/element/input-text"
+          },
+          {
+            "title": "Check, Radio, Toggle switch",
+            "type": "compo",
+            "path": "/element/check-radio-toggle-switch"
+          },
+          {
+            "title": "Select Dropdown",
+            "type": "compo",
+            "path": "/element/select-dropdown"
+          },
+          {
+            "title": "List Item",
+            "type": "compo",
+            "path": "/element/list-item"
+          }
+        ]
       },
       {
-        "title": "export",
-        "type": "export",
-        "path": "/export/export-test-ws"
+        "title": "Import",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "API Restfull service",
+            "type": "compo",
+            "path": "/import/export-mssql"
+          },
+          {
+            "title": "MS SQL datasource",
+            "type": "compo",
+            "path": "/import/export-mssql"
+          },
+          {
+            "title": "Oracle datasource",
+            "type": "compo",
+            "path": "/import/export-oracle"
+          },
+          {
+            "title": "Json file",
+            "type": "compo",
+            "path": "/import/export-json"
+          },
+          {
+            "title": "Excel file",
+            "type": "compo",
+            "path": "/import/export-excel"
+          },
+          {
+            "title": "TXT file",
+            "type": "compo",
+            "path": "/import/export-pdf"
+          }
+        ]
       },
       {
-        "title": "Text color",
-        "type": "compo",
-        "path": "/color/text-color"
+        "title": "Export",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "Export test websocket",
+            "type": "compo",
+            "path": "/export/export-test-ws"
+          },
+          {
+            "title": "Export excel",
+            "type": "compo",
+            "path": "/export/export-excel"
+          },
+          {
+            "title": "Export pdf",
+            "type": "compo",
+            "path": "/export/export-pdf"
+          }
+        ]
       },
       {
-        "title": "Background color",
-        "type": "compo",
-        "path": "/color/background-color"
+        "title": "Log",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "Log test websocket",
+            "type": "compo",
+            "path": "/log/log-test-ws"
+          }
+        ]
+      },
+      {
+        "title": "Sidebar",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "Left Sidebar Fancytree",
+            "type": "compo",
+            "path": "/sidebar/left-sidebar-fancytree"
+          },
+          {
+            "title": "Left Sidebar List Simple",
+            "type": "compo",
+            "path": "/sidebar/left-sidebar-list-simple"
+          },
+          {
+            "title": "Toolbar Left",
+            "type": "compo",
+            "path": "/sidebar/toolbar-left"
+          }
+        ]
       },
       {
         "title": "Tables",
+        "expanded": false,
         "folder": true,
-        "expanded": true,
         "children": [
           {
-            "title": "Table simple",
+            "title": "Table Simple",
             "type": "compo",
             "path": "/table/table-simple"
           }
         ]
       },
       {
-        "title": "System",
+        "title": "Toolbar",
+        "level": 1,
+        "expanded": false,
         "folder": true,
-        "expanded": true,
         "children": [
           {
-            "title": "dashboard",
+            "title": "Toolbar Simple",
             "type": "compo",
-            "path": "/dashboard/dashboard"
-          },
+            "path": "/toolbar/toolbar"
+          }
+        ]
+      },
+      {
+        "title": "Upload",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "Upload Test Websocket",
+            "type": "upload",
+            "path": "/upload/upload-test-ws"
+          }
+        ]
+      },
+      {
+        "title": "User",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
           {
             "title": "About",
             "type": "compo",

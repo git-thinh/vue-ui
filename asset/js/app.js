@@ -101,6 +101,8 @@ _DATA.objApp.view = JSON.parse(_apiGet('data/view-default.json'));
 _DATA.objComponent = JSON.parse(_apiGet('data/view-list.json'));
 if (_DATA.objApp.view[location.port] != null && _DATA.objApp.view[location.port].login != null) _PATH_LOGIN = _DATA.objApp.view[location.port].login;
 if (_DATA.objApp.view[location.port] != null && _DATA.objApp.view[location.port].main != null) _PATH_MAIN = _DATA.objApp.view[location.port].main;
+// STUB CROSS VIA LOGIN
+_DATA.objUserInfo.loggedIn = true;
 /////////////////////////////////////////////////////////////////////////////////
 /* WINDOW EVENT */
 window.onorientationchange = function () {
@@ -298,8 +300,11 @@ _MAIN = {
             _MAIN.viewLoad(_PATH_LOGIN, function () {
                 _MAIN.viewLoad(_PATH_MAIN, function () {
                     _MAIN.vueCreateNewInstaceOnMain(function () {
-                        //_ROUTER.push('/dashboard/dashboard');
-                        _apiGo(_PATH_MAIN);
+                        if (_DATA.objUserInfo.loggedIn) {
+                            _MAIN.onLoginSuccess();
+                            _apiGo(_PATH_MAIN);
+                        } else
+                            _apiGo(_PATH_MAIN);
                     });
                 });
             });
