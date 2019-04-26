@@ -11,5 +11,9 @@ var EXPORT_TEST_WS_COM = Vue.component('export-test-ws', {
         };
         return data;
     },
-    template: _apiGet('view/export/export-test-ws/index.html')
+    template: _apiGet('view/export/export-test-ws/index.html'),
+    mounted: function () {
+        document.title = 'EXPORT-TEST';
+        $(".alert").alert('close');
+    }
 });

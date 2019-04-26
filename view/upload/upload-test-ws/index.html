@@ -1,3 +1,85 @@
-﻿<div> 
-        <h2>upload-test-ws</h2> 
+﻿<div>
+    <h2>TEST UPLOAD</h2><input id="File1" type="file" />
+    <hr />
+    <div class="custom-file" id="customFile" lang="es">
+        <input type="file"  id="exampleInputFile" aria-describedby="fileHelp" ref="myFiles"  @change="previewFiles" multiple>
+        <label class="custom-file-label" for="exampleInputFile">
+            Select file...
+        </label>
+    </div>
+    <hr/>
+
+
+    <ul>
+        
+
+        <li v-for="(item, index) in files">
+            <span>{{item.name}}[ {{ (item.size/1024).toFixed(2) }} KB ] [ {{item.uploadPercen}} % ]</span>
+           
+            
+            <div id="preview">
+                <!--<img style="width: 200px; height: 200px;" :src="image"/>-->
+                <!-- <button style="background-color: red;border: none;color: white;padding: 10px 10px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;" @click="files.splice(index, 1)" title="Xóa ảnh này">Xóa Ảnh</button>-->
+                <button style="background-color: red;border: none;color: white;padding: 10px 10px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;" @click="deleteData(index)" title="Xóa ảnh này">Xóa Ảnh</button>
+            </div>
+        </li>
+
+
+    </ul>
+
+
+    <!--<div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <br/>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <br />
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <br />
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <br />
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>-->
+    <hr />
+    <!--<h3 class="text-success">bg-info</h3>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped  bg-info w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">50%</div>
+    </div>
+    <h5 class="text-success">bg-success</h5>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped  bg-success" style="width:33%" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">33%</div>
+    </div>
+    <h5 class="text-success">bg-warning</h5>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped  bg-warning w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+    </div>
+    <h5 class="text-success">bg-danger</h5>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped  bg-danger" style="width:52%" role="progressbar" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100">52%</div>
+    </div>
+    <h5 class="text-success">bg-light</h5>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped  bg-light w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+    </div>
+    <h5 class="text-success">bg-dark</h5>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-dark" style="width:65%">65%</div>
+    </div>
+    <h5 class="text-success">bg-primary</h5>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped  bg-primary" style="width:77%" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100">77%</div>
+    </div>
+    <h5 class="text-success">bg-secondary</h5>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped  bg-secondary" style="width: 64%">64%</div>
+    </div>-->
+
+     
 </div>

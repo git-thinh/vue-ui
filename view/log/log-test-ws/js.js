@@ -11,5 +11,9 @@ var LOG_TEST_WS_COM = Vue.component('log-test-ws', {
         };
         return data;
     },
-    template: _apiGet('view/log/log-test-ws/index.html')
+    template: _apiGet('view/log/log-test-ws/index.html'),
+    mounted: function () {
+        document.title = 'LOG-TEST';
+        $(".alert").alert('close');
+    }
 });
