@@ -9,6 +9,6 @@
     "main": "/export/export-test-ws"
   },
   "9003": {
-    "main": "/upload/upload-test-ws"
+    "main": "/dashboard/dashboard"
   }
 }

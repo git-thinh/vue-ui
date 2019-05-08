@@ -1,6 +1,11 @@
 ﻿var UPLOAD_TEST_WS_CONFIG = {
     requiresAuth: false,
-    path: '/upload/upload-test-ws'
+    path: '/upload/upload-test-ws',
+    api: {
+        uriPawn: {
+            search: 'http:1.1.1.1:9001/api/pawn/seachr/{key}'
+        }
+    }
 };
 
 var UPLOAD_TEST_WS_COM = Vue.component('upload-test-ws', {
@@ -22,10 +27,10 @@ var UPLOAD_TEST_WS_COM = Vue.component('upload-test-ws', {
 
 
             //Add By EsonDinh [23/04/2019]: Xu ly hien thi hinh anh de User xem,truoc khi upload len Server
-            //var f = e.target.files || e.dataTransfer.files;
-            //if (!f.length)
-            //    return;
-            //this.createImage(f[0]);
+            var f = e.target.files || e.dataTransfer.files;
+            if (!f.length)
+                return;
+            this.createImage(f[0]);
             //End Add By EsonDinh [23/04/2019]: Xu ly hien thi hinh anh de User xem,truoc khi upload len Server
 
 
@@ -56,8 +61,13 @@ var UPLOAD_TEST_WS_COM = Vue.component('upload-test-ws', {
                 worker.onmessage = function (oEvent) {
                     console.log('->UI: ' + JSON.stringify(oEvent.data));
                     switch (oEvent.data.Code) {
+                        case 'FILE_DELETE_SUCCESS':
+
+                            break;
                         case 'SOCKET_SENDING':
-                            item.uploadPercen = (oEvent.data.Index / oEvent.data.PageTotal * 100).toFixed(2);
+                            var per = (oEvent.data.Index / oEvent.data.PageTotal * 100).toFixed(2);
+                            console.log(oEvent.data.Name, per);
+                            _self.files[oEvent.data.Id].uploadPercen = per;
                             break;
                         default:
                             break;

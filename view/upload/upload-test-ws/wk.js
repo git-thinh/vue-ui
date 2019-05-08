@@ -66,7 +66,7 @@ ws.onmessage = function (evt) {
             break;
         case 'SOCKET_BUFFERING':
             //-> begin buffering next packet
-            postMessage({ Code: 'SOCKET_SENDING', PageTotal: buffers.length, Index: uploadIndex });
+            postMessage({ Id: item.id, Code: 'SOCKET_SENDING', Name: item.name, PageTotal: buffers.length, Index: uploadIndex });
             ws.send(buffers[uploadIndex]);
             uploadIndex++;
             if (uploadIndex == buffers.length) {

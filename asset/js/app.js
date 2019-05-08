@@ -102,7 +102,7 @@ _DATA.objComponent = JSON.parse(_apiGet('data/view-list.json'));
 if (_DATA.objApp.view[location.port] != null && _DATA.objApp.view[location.port].login != null) _PATH_LOGIN = _DATA.objApp.view[location.port].login;
 if (_DATA.objApp.view[location.port] != null && _DATA.objApp.view[location.port].main != null) _PATH_MAIN = _DATA.objApp.view[location.port].main;
 // STUB CROSS VIA LOGIN
-_DATA.objUserInfo.loggedIn = true;
+_DATA.objUserInfo.loggedIn = false;
 /////////////////////////////////////////////////////////////////////////////////
 /* WINDOW EVENT */
 window.onorientationchange = function () {
