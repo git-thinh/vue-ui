@@ -2,11 +2,11 @@
   "123": {
     "main": "/element/kit-bootstrap" 
   },
-  "9001": {
+  "": {
     "main": "/log/log-test-ws"
   },
   "9002": {
-    "main": "/export/export-test-ws"
+    "main": "/export/log-test-ws"
   },
   "9003": {
     "main": "/dashboard/dashboard"
